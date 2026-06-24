@@ -1,9 +1,9 @@
 class MovableObject {
     x = 120;
     y = 250;
-    img;
     height = 150;
     width = 100;
+    img;
 
 
     loadImage(path) {
@@ -16,6 +16,6 @@ class MovableObject {
     }
 
     moveLeft() {
-        
+        console.log('Moving left');
     }
 }
