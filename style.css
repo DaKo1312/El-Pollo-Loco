@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Rancho Camino";
+    src: url("./assets/fonts/RanchoCamino.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 72px;
+    font-family: 'Rancho Camino';
+    margin-bottom: 0;
+}
+
+canvas {
+    background-color: black;
+}
