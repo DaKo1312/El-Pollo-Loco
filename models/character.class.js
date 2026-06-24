@@ -1,5 +1,7 @@
-class Character extends MovableObject{
-    
+import {MovableObject} from './movables_object.class.js';
+
+export class Character extends MovableObject{
+
     constructor() {
         super().loadImage('assets/img/2_character_pepe/2_walk/W-21.png');
     }
