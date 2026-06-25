@@ -1,7 +1,7 @@
 import {ImageHelper} from '../helper/image_helper.class.js';
 
 export class MovableObject {
-    // #region properties
+    // #region movableObjects properties
     x = 20;
     y = 285;
     height = 150;

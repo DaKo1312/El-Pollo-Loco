@@ -2,9 +2,11 @@ import {MovableObject} from './movables_object.class.js';
 import {ImageHelper} from '../helper/image_helper.class.js';
 
 export class Chicken extends MovableObject {
+    // #region chicken properties
     y = 350;
     height = 80;
     width = 50;
+    // #endregion
 
     currentImage = 0;
     imagesWalk = ImageHelper.BIGCHICKEN.walk;

@@ -2,9 +2,11 @@ import {MovableObject} from './movables_object.class.js';
 import {ImageHelper} from '../helper/image_helper.class.js';
 
 export class Character extends MovableObject {
+    // #region character properties
     height = 290;
     y = 145;
     speed = 10;
+    // #endregion
     
     currentImage = 0;
     imagesIdle = ImageHelper.PEPE.idle;
@@ -29,6 +31,7 @@ export class Character extends MovableObject {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
+            this.world.camera_x = -this.x;
         }, 1000/60);
 
         setInterval(() => {
