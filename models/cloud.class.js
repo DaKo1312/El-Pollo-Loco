@@ -6,8 +6,16 @@ export class Cloud extends MovableObject {
     width = 1500;
 
     constructor() {
-        super().loadImage('assets/img/5_background/layers/4_clouds/full.png');
+        super().loadImage('assets/img/5_background/layers/4_clouds/full.png',);
 
-        this.x = -50 + Math.random()*500;
+        this.x = Math.random() *500;
+        this.animate();
+    }
+
+    animate() {
+        setInterval( () => {
+            this.x -= 0.2;
+        }, 1000/60)
+
     }
 }

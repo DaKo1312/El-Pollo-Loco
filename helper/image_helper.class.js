@@ -1,4 +1,4 @@
-class ImageHelper {
+export class ImageHelper {
     // #region background
     static BACKGROUND = {
         first_layer: [
@@ -50,7 +50,7 @@ class ImageHelper {
             'assets/img/2_character_pepe/1_idle/long_idle/I-19.png',
             'assets/img/2_character_pepe/1_idle/long_idle/I-20.png'
         ],
-        Walk: [
+        walk: [
             'assets/img/2_character_pepe/2_walk/W-21.png',
             'assets/img/2_character_pepe/2_walk/W-22.png',
             'assets/img/2_character_pepe/2_walk/W-23.png',
