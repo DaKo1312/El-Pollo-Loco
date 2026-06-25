@@ -1,14 +1,31 @@
 import {MovableObject} from './movables_object.class.js';
+import {ImageHelper} from '../helper/image_helper.class.js';
 
 export class Chicken extends MovableObject {
-    y = 295;
+    y = 350;
     height = 80;
     width = 50;
-    y = 350;
+
+    currentImage = 0;
+    imagesWalk = ImageHelper.BIGCHICKEN.walk;
 
     constructor() {
-        super().loadImage('assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        super();
+        this.loadImage(this.imagesWalk[0]);
+        this.loadImages(this.imagesWalk);
+        this.x = 200 + Math.random() * 500;
+        this.speed = 0.15 + Math.random() * 0.5;
+        this.animate();
+    }
 
-        this.x = 200 + Math.random() *500;
+    animate() {
+        this.moveLeft();
+
+        setInterval(() => {
+            let i = this.currentImage % this.imagesWalk.length;
+            let path = this.imagesWalk[i];
+            this.img = this.imageCache[path];
+            this.currentImage ++;
+        }, 1000/10);
     }
 }

@@ -1,16 +1,16 @@
 import {ImageHelper} from '../helper/image_helper.class.js';
 
 export class MovableObject {
+    // #region properties
     x = 20;
     y = 285;
     height = 150;
     width = 100;
     img;
     imageCache = {};
-    imagesIdle = ImageHelper.PEPE.idle;
-    imagesIdleLong = ImageHelper.PEPE.idle_long;
-    imagesWalk = ImageHelper.PEPE.walk;
-
+    currentImage = 0;
+    speed = 0.2;
+    // #endregion
 
     loadImage(path) {
         this.img = new Image();
@@ -30,6 +30,8 @@ export class MovableObject {
     }
 
     moveLeft() {
-        console.log('Moving left');
+        setInterval( () => {
+            this.x -= this.speed;
+        }, 1000/60)
     }
 }

@@ -25,9 +25,10 @@ body {
 }
 
 h1 {
+    margin: 0;
     font-size: 72px;
     font-family: "Rye";
-    margin-bottom: 0;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
 canvas {

@@ -1,15 +1,15 @@
 export class ImageHelper {
     // #region background
     static BACKGROUND = {
-        first_layer: [
+        firstLayer: [
             'assets/img/5_background/layers/1_first_layer/1.png',
             'assets/img/5_background/layers/1_first_layer/2.png'
         ],
-        second_layer: [
+        secondLayer: [
             'assets/img/5_background/layers/2_second_layer/1.png',
             'assets/img/5_background/layers/2_second_layer/2.png'
         ],
-        third_layer: [
+        thirdLayer: [
             'assets/img/5_background/layers/3_third_layer/1.png',
             'assets/img/5_background/layers/3_third_layer/2.png'
         ],
@@ -18,9 +18,9 @@ export class ImageHelper {
             'assets/img/5_background/layers/4_clouds/2.png',
             'assets/img/5_background/layers/4_clouds/full.png'
         ],
-        air: [
+        air:
             'assets/img/5_background/layers/air.png'
-        ]
+        
     }
     // #endregion
 
@@ -82,6 +82,32 @@ export class ImageHelper {
             'assets/img/2_character_pepe/5_dead/D-55.png',
             'assets/img/2_character_pepe/5_dead/D-56.png',
             'assets/img/2_character_pepe/5_dead/D-57.png'
+        ]
+    }
+    // #endregion
+
+    // #region enemies big chicken
+    static BIGCHICKEN = {
+        walk: [
+            'assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
+            'assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
+            'assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
+        ],
+        dead: [
+            'assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+        ]
+    }
+    // #endregion
+
+    // #region enemies small chicken
+    static SMALLCHICKEN = {
+        walk: [
+            'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
+            'assets/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
+            'assets/img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
+        ],
+        dead: [
+            'assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
         ]
     }
     // #endregion
