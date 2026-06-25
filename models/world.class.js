@@ -14,7 +14,10 @@ export class World {
         new Cloud()
     ];
     backgroundObjects = [
-        new BackgroundObject('assets/img/5_background/layers/3_third_layer/1.png', 0, 80)
+        new BackgroundObject('assets/img/5_background/layers/air.png', 0),
+        new BackgroundObject('assets/img/5_background/layers/3_third_layer/1.png', 0),
+        new BackgroundObject('assets/img/5_background/layers/2_second_layer/1.png', 0),
+        new BackgroundObject('assets/img/5_background/layers/1_first_layer/1.png', 0)
     ]
     canvas;
     ctx;
@@ -29,10 +32,10 @@ export class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.addObjectToMap(this.backgroundObjects);
         this.addToMap(this.character);
         this.addObjectToMap(this.clouds);
         this.addObjectToMap(this.enemies);
-        this.addObjectToMap(this.backgroundObjects);
 
         let self = this;
         requestAnimationFrame(function() {

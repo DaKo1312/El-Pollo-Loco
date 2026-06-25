@@ -1,6 +1,6 @@
 export class MovableObject {
-    x = 120;
-    y = 250;
+    x = 20;
+    y = 285;
     height = 150;
     width = 100;
     img;
