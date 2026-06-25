@@ -15,7 +15,6 @@ function init() {
 window.addEventListener('load', init);
 
 window.addEventListener("keydown", (e) => {
-    console.log(e.code);
     if (e.code === "ArrowRight") {
         keyboard.RIGHT = true;
     }

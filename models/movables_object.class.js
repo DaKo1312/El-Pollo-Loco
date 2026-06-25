@@ -10,6 +10,7 @@ export class MovableObject {
     imageCache = {};
     currentImage = 0;
     speed = 0.2;
+    otherDirection = false;
     // #endregion
 
     loadImage(path) {
