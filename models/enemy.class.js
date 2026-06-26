@@ -3,11 +3,11 @@ import { IntervalHub } from "../helper/interval_helper.class.js";
 
 export class Enemy extends MovableObject {
     currentImage = 0;
+    showFrame = true;
 
     constructor() {
         super();
         this.x = 200 + Math.random() * 6000;
-        this.y = 80 + Math.random() * 180;
     }
 
     animate() {

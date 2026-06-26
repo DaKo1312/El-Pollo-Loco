@@ -5,6 +5,7 @@ export class Cloud extends MovableObject {
     y = 5;
     height = 450;
     width = 1500;
+    showFrame = false;
     // #endregion
 
     constructor() {

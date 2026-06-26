@@ -1,5 +1,6 @@
 import { Character } from './character.class.js';
 import { level1 } from "../levels/level1.js";
+import { IntervalHub } from '../helper/interval_helper.class.js';
 
 export class World {
     // #region world properties
@@ -17,6 +18,7 @@ export class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
     }
 
     setWorld() {
@@ -24,6 +26,42 @@ export class World {
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
         });
+    }
+
+    checkCollisions() {
+        this.checkEnemyCollisions();
+        this.checkCoinCollisions();
+        this.checkFlaskCollisions();
+    }
+
+    checkEnemyCollisions() {
+    IntervalHub.startInterval(() => {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy));
+        });
+    }, 100);
+    }
+
+    checkCoinCollisions() {
+    IntervalHub.startInterval(() => {
+        this.level.coins = this.level.coins.filter((coin) => {
+            if (this.character.isColliding(coin)) {
+                return false;
+            }
+            return true;
+        });
+    }, 100);
+    }
+
+    checkFlaskCollisions() {
+    IntervalHub.startInterval(() => {
+        this.level.flasks = this.level.flasks.filter((flask) => {
+            if (this.character.isColliding(flask)) {
+                return false;
+            }
+            return true;
+        });
+    }, 100);
     }
 
     draw() {
@@ -56,7 +94,10 @@ export class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
+
         if (mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();

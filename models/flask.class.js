@@ -7,6 +7,8 @@ export class Flask extends MovableObject {
     width = 80;
     height = 80;
     y = 340;
+    showFrame = true;
+    offset = {top: 80, right: 20, bottom: 80, left: 25};
     // #endregion
 
     constructor() {

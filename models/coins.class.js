@@ -7,6 +7,8 @@ export class Coin extends MovableObject {
     width = 120;
     height = 120;
     y = 120;
+    showFrame = true;
+    offset = {top: 40, right: 40, bottom: 40, left: 40};
     // #endregion
 
     constructor() {

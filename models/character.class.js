@@ -15,6 +15,8 @@ export class Character extends MovableObject {
     speed = 5.5;
     currentImage = 0;
     lastAction = Date.now();
+    showFrame = true;
+    offset = {top: 110, right: 20, bottom: 10, left: 25};
     // #endregion
 
     world;

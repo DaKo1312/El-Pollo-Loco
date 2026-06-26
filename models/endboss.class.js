@@ -14,10 +14,14 @@ export class Endboss extends MovableObject {
     height = 500;
     width = 350;
     currentImage = 0;
+    showFrame = true;
+    groundY = -40;
+    
     // # endregion
 
     constructor() {
         super();
+        this.y = -40;
         this.loadImage(this.imagesAlert[0]);
         this.loadImages(this.imagesAlert);
         this.animate();
