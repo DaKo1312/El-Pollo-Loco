@@ -5,16 +5,16 @@ import {Level} from "../models/level.class.js";
 import {Cloud} from "../models/cloud.class.js";
 
 let enemies = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
         enemies.push(new Chicken());
     }
 let clouds = [];
     clouds.push(new Cloud());
 
 let backgroundObjects = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = -1; i < 6; i++) {
     let x = i * 720;
-    let imageIndex = i % 2;
+    let imageIndex = Math.abs(i) % 2;
     backgroundObjects.push(
         new BackgroundObject(ImageHelper.BACKGROUND.air, x),
         new BackgroundObject(ImageHelper.BACKGROUND.thirdLayer[imageIndex], x),

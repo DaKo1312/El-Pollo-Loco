@@ -7,6 +7,7 @@ export class World {
     canvas;
     ctx;
     keyboard;
+    level = level1;
     camera_x = 0;
     // #endregion
 
@@ -14,7 +15,6 @@ export class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.level = level1;
         this.draw();
         this.setWorld();
     }
