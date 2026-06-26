@@ -1,4 +1,5 @@
 import { ImageHelper } from '../helper/image_helper.class.js';
+import { IntervalHub } from "../helper/interval_helper.class.js";
 
 export class MovableObject {
     // #region movableObjects properties
@@ -17,7 +18,7 @@ export class MovableObject {
 
     applyGravity() {
         setInterval(() => {
-            if(isAboveGround()) {
+            if(this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
@@ -41,13 +42,10 @@ export class MovableObject {
     });
 }
 
-    moveRight() {
-    }
-
     moveLeft() {
-        setInterval( () => {
-            this.x -= this.speed;
-        }, 1000/60)
+        IntervalHub.startInterval(() => {
+        this.x -= this.speed;
+        }, 1000 / 60);
     }
 
     playAnimation(images) {

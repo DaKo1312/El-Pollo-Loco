@@ -18,7 +18,14 @@ let enemies = [];
     enemies.push(new Endboss());
 
 let clouds = [];
-    clouds.push(new Cloud());
+let currentX = 0;
+    for (let i = 0; i < 10; i++) {
+        let cloud = new Cloud();
+        cloud.x = currentX;
+        cloud.y = -35 + Math.random() * 20;
+        clouds.push(cloud);
+        currentX += cloud.width + 150;
+    }
 
 let coins = [];
     for (let i = 0; i < 12; i++) {

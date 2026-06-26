@@ -7,7 +7,7 @@ export class Chicken extends Enemy {
     imagesDead = ImageHelper.BIGCHICKEN.dead;
     y = 350;
     height = 80;
-    width = 50;
+    width = 70;
     currentImage = 0;
     // #endregion
 

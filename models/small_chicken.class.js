@@ -7,7 +7,7 @@ export class SmallChicken extends Enemy {
     imagesDead = ImageHelper.SMALLCHICKEN.dead;
     y = 370;
     height = 60;
-    width = 40;
+    width = 50;
     currentImage = 0;
     // #endregion
 
