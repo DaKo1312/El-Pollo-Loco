@@ -37,8 +37,11 @@ export class World {
     checkEnemyCollisions() {
     IntervalHub.startInterval(() => {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy));
-        });
+            if (this.character.isColliding(enemy)) {
+                this.character.energy -= 5;
+                console.log('Collisinon with Character, energy', this.character.energy);
+            }
+        });    
     }, 100);
     }
 
