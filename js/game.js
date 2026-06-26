@@ -1,5 +1,5 @@
-import {World} from '../models/world.class.js';
-import {GameKeyboard} from '../models/keyboard.class.js';
+import { World } from '../models/world.class.js';
+import { GameKeyboard } from '../models/keyboard.class.js';
 
 let canvas;
 let world;

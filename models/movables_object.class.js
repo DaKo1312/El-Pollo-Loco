@@ -1,4 +1,4 @@
-import {ImageHelper} from '../helper/image_helper.class.js';
+import { ImageHelper } from '../helper/image_helper.class.js';
 
 export class MovableObject {
     // #region movableObjects properties
@@ -27,12 +27,19 @@ export class MovableObject {
 }
 
     moveRight() {
-        console.log('Moving right');
+
     }
 
     moveLeft() {
         setInterval( () => {
             this.x -= this.speed;
         }, 1000/60)
+    }
+
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 }

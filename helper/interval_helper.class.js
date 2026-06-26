@@ -1,7 +1,7 @@
 export class IntervalHub {
     static allIntervals = [];
     static startInterval (func, timer) {
-        const newInterval = setIntervat(func, timer);
+        const newInterval = setInterval(func, timer);
         IntervalHub.allIntervals.push(newInterval);
     }
 

@@ -1,17 +1,20 @@
-import {MovableObject} from './movables_object.class.js';
-import {ImageHelper} from '../helper/image_helper.class.js';
+import { MovableObject } from './movables_object.class.js';
+import { ImageHelper } from '../helper/image_helper.class.js';
+import { IntervalHub } from "../helper/interval_helper.class.js";
 
 export class Character extends MovableObject {
     // #region character properties
-    height = 290;
-    y = 145;
-    speed = 10;
-    // #endregion
-    
-    currentImage = 0;
     imagesIdle = ImageHelper.PEPE.idle;
     imagesIdleLong = ImageHelper.PEPE.idle_long;
     imagesWalk = ImageHelper.PEPE.walk;
+    imagesJump = ImageHelper.PEPE.jump;
+    imagesHurt = ImageHelper.PEPE.hurt;
+    imagesDead = ImageHelper.PEPE.dead;
+    height = 290;
+    y = 145;
+    speed = 10;
+    currentImage = 0;
+    // #endregion
     world;
 
     constructor() {
@@ -22,7 +25,7 @@ export class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
@@ -34,14 +37,10 @@ export class Character extends MovableObject {
             this.world.camera_x = -this.x +100;
         }, 1000/60);
 
-        setInterval(() => {
+        IntervalHub.startInterval(() => {
             if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                let i = this.currentImage % this.imagesWalk.length;
-                let path = this.imagesWalk[i];
-                this.img = this.imageCache[path];
-                this.currentImage ++;
-            }
-    }, 50);
+            this.playAnimation(this.imagesWalk);
+        }}, 50);
     }
 
     jump() {

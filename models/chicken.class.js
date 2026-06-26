@@ -1,15 +1,16 @@
-import {MovableObject} from './movables_object.class.js';
-import {ImageHelper} from '../helper/image_helper.class.js';
+import { MovableObject } from './movables_object.class.js';
+import { ImageHelper } from '../helper/image_helper.class.js';
+import { IntervalHub } from "../helper/interval_helper.class.js";
 
 export class Chicken extends MovableObject {
     // #region chicken properties
+    imagesWalk = ImageHelper.BIGCHICKEN.walk;
+    imagesDead = ImageHelper.BIGCHICKEN.dead;
     y = 350;
     height = 80;
     width = 50;
-    // #endregion
-
     currentImage = 0;
-    imagesWalk = ImageHelper.BIGCHICKEN.walk;
+    // #endregion
 
     constructor() {
         super();
@@ -23,11 +24,8 @@ export class Chicken extends MovableObject {
     animate() {
         this.moveLeft();
 
-        setInterval(() => {
-            let i = this.currentImage % this.imagesWalk.length;
-            let path = this.imagesWalk[i];
-            this.img = this.imageCache[path];
-            this.currentImage ++;
-        }, 1000/10);
+        IntervalHub.startInterval(() => {
+        this.playAnimation(this.imagesWalk);
+    }, 1000 / 5);
     }
 }

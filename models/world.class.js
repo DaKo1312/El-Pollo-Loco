@@ -1,5 +1,5 @@
-import {Character} from './character.class.js';
-import {level1} from "../levels/level1.js";
+import { Character } from './character.class.js';
+import { level1 } from "../levels/level1.js";
 
 export class World {
     // #region world properties
@@ -30,8 +30,8 @@ export class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObjects);
-        this.addToMap(this.character);
         this.addObjectToMap(this.level.clouds);
+        this.addToMap(this.character);
         this.addObjectToMap(this.level.enemies);
         this.ctx.translate(-this.camera_x, 0);
 

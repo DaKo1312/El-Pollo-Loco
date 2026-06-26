@@ -1,16 +1,19 @@
-import {Chicken} from "../models/chicken.class.js";
-import {BackgroundObject} from "../models/background_object.class.js";
-import {ImageHelper} from "../helper/image_helper.class.js";
-import {Level} from "../models/level.class.js";
-import {Cloud} from "../models/cloud.class.js";
+import { Chicken } from "../models/chicken.class.js";
+import { BackgroundObject } from "../models/background_object.class.js";
+import { ImageHelper } from "../helper/image_helper.class.js";
+import { Level } from "../models/level.class.js";
+import { Cloud } from "../models/cloud.class.js";
+import { Endboss } from "../models/endboss.class.js";
 
 let enemies = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 10; i++) {
         enemies.push(new Chicken());
     }
+    enemies.push(new Endboss());
+
 let clouds = [];
     clouds.push(new Cloud());
-
+    
 let backgroundObjects = [];
     for (let i = -1; i < 6; i++) {
     let x = i * 720;

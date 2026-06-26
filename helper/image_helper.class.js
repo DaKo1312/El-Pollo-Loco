@@ -86,7 +86,7 @@ export class ImageHelper {
     }
     // #endregion
 
-    // #region enemies big chicken
+    // #region enemie big chicken
     static BIGCHICKEN = {
         walk: [
             'assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -99,7 +99,7 @@ export class ImageHelper {
     }
     // #endregion
 
-    // #region enemies small chicken
+    // #region enemie small chicken
     static SMALLCHICKEN = {
         walk: [
             'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -108,6 +108,47 @@ export class ImageHelper {
         ],
         dead: [
             'assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
+        ]
+    }
+    // #endregion
+
+    // #region enemie endboss
+    static ENDBOSS = {
+        walk: [
+            'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
+            'assets/img/4_enemie_boss_chicken/1_walk/G2.png',
+            'assets/img/4_enemie_boss_chicken/1_walk/G3.png',
+            'assets/img/4_enemie_boss_chicken/1_walk/G4.png'
+        ],
+        alert: [
+            'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G6.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G7.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G8.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G9.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G10.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G11.png',
+            'assets/img/4_enemie_boss_chicken/2_alert/G12.png'
+        ],
+        attack: [
+            'assets/img/4_enemie_boss_chicken/3_attack/G13.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G14.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G15.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G16.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G17.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G18.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G19.png',
+            'assets/img/4_enemie_boss_chicken/3_attack/G20.png'
+        ],
+        hurt: [
+            'assets/img/4_enemie_boss_chicken/4_hurt/G21.png',
+            'assets/img/4_enemie_boss_chicken/4_hurt/G22.png',
+            'assets/img/4_enemie_boss_chicken/4_hurt/G23.png'
+        ],
+        dead: [
+            'assets/img/4_enemie_boss_chicken/5_dead/G24.png',
+            'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
+            'assets/img/4_enemie_boss_chicken/5_dead/G26.png',
         ]
     }
     // #endregion
