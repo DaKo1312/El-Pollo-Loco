@@ -10,7 +10,7 @@ export class Endboss extends MovableObject {
     imagesHurt = ImageHelper.ENDBOSS.hurt;
     imagesDead = ImageHelper.ENDBOSS.dead;
     y = -40;
-    x = 3850;
+    x = 6750;
     height = 500;
     width = 350;
     currentImage = 0;

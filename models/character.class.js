@@ -15,12 +15,14 @@ export class Character extends MovableObject {
     speed = 10;
     currentImage = 0;
     // #endregion
+
     world;
 
     constructor() {
         super();
         this.loadImage(this.imagesWalk[0]);
         this.loadImages(this.imagesWalk);
+        this.applyGravity();
         this.animate();
     }
 
