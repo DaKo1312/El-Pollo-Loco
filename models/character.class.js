@@ -15,8 +15,10 @@ export class Character extends MovableObject {
     speed = 5.5;
     currentImage = 0;
     lastAction = Date.now();
-    showFrame = true;
+    showFrame = false;
     offset = {top: 110, right: 20, bottom: 10, left: 25};
+    coins = 0;
+    flasks = 0;
     // #endregion
 
     world;
@@ -70,9 +72,19 @@ export class Character extends MovableObject {
             this.playAnimation(this.imagesIdle);
         }
     }, 150);
-}
+    }
 
     jump() {
+    }
+
+    collectCoin() {
+        this.coins++;
+        this.world.coinStatusBar.setPercentage(this.coins * 10);
+    }
+
+    collectFlask() {
+        this.flasks++;
+        this.world.flaskStatusBar.setPercentage(this.flasks * 10);
     }
 }
 

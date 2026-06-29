@@ -1,15 +1,9 @@
 import { ImageHelper } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
+import { DrawableObject } from './drawable_object.class.js';
 
-export class MovableObject {
+export class MovableObject extends DrawableObject {
     // #region movableObjects properties
-    x = 20;
-    y = 285;
-    height = 150;
-    width = 100;
-    img;
-    imageCache = {};
-    currentImage = 0;
     speed = 0.2;
     otherDirection = false;
     speedY = 0;
@@ -34,29 +28,6 @@ export class MovableObject {
         return this.y < this.groundY;
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-
-    drawFrame(ctx) {
-        if (!this.showFrame) return;
-        ctx.beginPath();
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = "blue";
-        ctx.rect(
-            this.x + this.offset.left,
-            this.y + this.offset.top,
-            this.width - this.offset.left - this.offset.right,
-            this.height - this.offset.top - this.offset.bottom
-        );
-        ctx.stroke();
-    }
-
     isColliding(mo) {
     return (
         this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -72,7 +43,9 @@ export class MovableObject {
         if (this.energy < 0) {
             this.energy = 0;
         }
+        console.log('HIT, energy', this.energy);
         this.lastHit = Date.now();
+        this.world.statusBar.setPercentage(this.energy);
         }
     }
 
@@ -83,14 +56,6 @@ export class MovableObject {
 
     isDead() {
         return this.energy <= 0;
-    }
-
-    loadImages(arr) {
-    arr.forEach((path) => {
-        let img = new Image();
-        img.src = path;
-        this.imageCache[path] = img;
-    });
     }
 
     moveLeft() {

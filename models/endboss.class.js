@@ -14,7 +14,7 @@ export class Endboss extends MovableObject {
     height = 500;
     width = 350;
     currentImage = 0;
-    showFrame = true;
+    showFrame = false;
     groundY = -40;
     
     // # endregion
