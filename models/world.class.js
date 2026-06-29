@@ -35,14 +35,13 @@ export class World {
     }
 
     checkEnemyCollisions() {
-    IntervalHub.startInterval(() => {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.energy -= 5;
-                console.log('Collisinon with Character, energy', this.character.energy);
-            }
-        });    
-    }, 100);
+        IntervalHub.startInterval(() => {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                }
+            });
+        }, 100);
     }
 
     checkCoinCollisions() {
@@ -97,10 +96,8 @@ export class World {
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
         }
-
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
-
         if (mo.otherDirection) {
             mo.x = mo.x * -1;
             this.ctx.restore();

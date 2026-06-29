@@ -17,6 +17,7 @@ export class MovableObject {
     showFrame = false;
     groundY = 145;
     energy = 100;
+    lastHit = 0;
     offset = {top: 0, right: 0, bottom: 0, left: 0};
     // #endregion
 
@@ -63,6 +64,25 @@ export class MovableObject {
         this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
         this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
     );
+    }
+
+    hit() {
+    if (!this.isHurt()) {
+        this.energy -= 5;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }
+        this.lastHit = Date.now();
+        }
+    }
+
+    isHurt() {
+        let timePassed = Date.now() - this.lastHit;
+        return timePassed < 1000;
+    }
+
+    isDead() {
+        return this.energy <= 0;
     }
 
     loadImages(arr) {

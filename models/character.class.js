@@ -29,6 +29,8 @@ export class Character extends MovableObject {
         this.loadImages(this.imagesIdleLong);
         this.loadImage(this.imagesJump[0]);
         this.loadImages(this.imagesJump);
+        this.loadImages(this.imagesHurt);
+        this.loadImages(this.imagesDead);
         this.applyGravity();
         this.animate();
     }
@@ -54,7 +56,11 @@ export class Character extends MovableObject {
 
     IntervalHub.startInterval(() => {
         let idleTime = Date.now() - this.lastAction;
-        if (this.isAboveGround()) {
+        if (this.isDead()) { 
+            this.playAnimation(this.imagesDead);
+        } else if (this.isHurt()) {
+            this.playAnimation(this.imagesHurt);
+        }   else if (this.isAboveGround()) {
             this.playAnimation(this.imagesJump);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.imagesWalk);
