@@ -1,7 +1,7 @@
 import { Chicken } from "../models/chicken.class.js";
 import { SmallChicken } from "../models/small_chicken.class.js";
 import { BackgroundObject } from "../models/background_object.class.js";
-import { ImageHelper } from "../helper/image_helper.class.js";
+import { ImageHub } from "../helper/image_helper.class.js";
 import { Level } from "../models/level.class.js";
 import { Cloud } from "../models/cloud.class.js";
 import { Endboss } from "../models/endboss.class.js";
@@ -42,10 +42,10 @@ let backgroundObjects = [];
     let x = i * 720;
     let imageIndex = Math.abs(i) % 2;
     backgroundObjects.push(
-        new BackgroundObject(ImageHelper.BACKGROUND.air, x),
-        new BackgroundObject(ImageHelper.BACKGROUND.thirdLayer[imageIndex], x),
-        new BackgroundObject(ImageHelper.BACKGROUND.secondLayer[imageIndex], x),
-        new BackgroundObject(ImageHelper.BACKGROUND.firstLayer[imageIndex], x)
+        new BackgroundObject(ImageHub.BACKGROUND.air, x),
+        new BackgroundObject(ImageHub.BACKGROUND.thirdLayer[imageIndex], x),
+        new BackgroundObject(ImageHub.BACKGROUND.secondLayer[imageIndex], x),
+        new BackgroundObject(ImageHub.BACKGROUND.firstLayer[imageIndex], x)
     );
 }
 

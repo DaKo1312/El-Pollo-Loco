@@ -1,10 +1,10 @@
 import { Enemy } from "./enemy.class.js";
-import { ImageHelper } from '../helper/image_helper.class.js';
+import { ImageHub } from '../helper/image_helper.class.js';
 
 export class Chicken extends Enemy {
     // #region chicken properties
-    imagesWalk = ImageHelper.BIGCHICKEN.walk;
-    imagesDead = ImageHelper.BIGCHICKEN.dead;
+    imagesWalk = ImageHub.BIGCHICKEN.walk;
+    imagesDead = ImageHub.BIGCHICKEN.dead;
     y = 350;
     height = 80;
     width = 70;

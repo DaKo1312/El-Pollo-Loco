@@ -2,7 +2,8 @@ import { Character } from './character.class.js';
 import { level1 } from "../levels/level1.js";
 import { IntervalHub } from '../helper/interval_helper.class.js';
 import { StatusBar } from "./status_bar.class.js";
-import { ImageHelper } from "../helper/image_helper.class.js";
+import { ImageHub } from "../helper/image_helper.class.js";
+import { ThrowableObject } from "./throwable_object.class.js";
 
 export class World {
     // #region world properties
@@ -12,9 +13,10 @@ export class World {
     keyboard;
     level = level1;
     camera_x = 0;
-    statusBar = new StatusBar(ImageHelper.STATUSBAR.health, 20, 5);
-    coinStatusBar = new StatusBar(ImageHelper.STATUSBAR.coin, 20, 55);
-    flaskStatusBar = new StatusBar(ImageHelper.STATUSBAR.flask, 20, 105);  
+    statusBar = new StatusBar(ImageHub.STATUSBAR.health, 20, 5);
+    coinStatusBar = new StatusBar(ImageHub.STATUSBAR.coin, 20, 55);
+    flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);  
+    throwableObjects = [];
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -37,6 +39,7 @@ export class World {
         this.checkEnemyCollisions();
         this.checkCoinCollisions();
         this.checkFlaskCollisions();
+        this.checkThrowableObjects();
         this.statusBar.setPercentage(this.character.energy);
     }
 
@@ -78,6 +81,23 @@ export class World {
         }, 100);
     }
 
+    checkThrowableObjects() {
+        IntervalHub.startInterval(() => {
+            if (this.keyboard.D && this.character.flasks > 0) {
+                this.throwableObjects.push(
+                    new ThrowableObject(
+                        this.character.x + 50,
+                        this.character.y + 100,
+                        this
+                    )
+                );
+                this.character.flasks--;
+                this.flaskStatusBar.setPercentage(this.character.flasks * 10);
+                this.keyboard.D = false;
+            }
+        }, 100);
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -85,8 +105,9 @@ export class World {
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.coins);
         this.addObjectToMap(this.level.flasks);
-        this.addToMap(this.character);
         this.addObjectToMap(this.level.enemies);
+        this.addToMap(this.character);
+        this.addObjectToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);

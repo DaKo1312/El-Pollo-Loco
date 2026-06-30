@@ -1,4 +1,4 @@
-import { ImageHelper } from '../helper/image_helper.class.js';
+import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { DrawableObject } from './drawable_object.class.js';
 
@@ -25,8 +25,8 @@ export class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y < this.groundY;
-    }
+            return this.y < this.groundY;
+        }   
 
     isColliding(mo) {
     return (

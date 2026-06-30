@@ -1,10 +1,12 @@
 import { DrawableObject } from "./drawable_object.class.js";
 
 export class StatusBar extends DrawableObject {
+    // #region statusbar
     images = [];
     percentage = 100;
     width = 180;
     height = 60;
+    // #endregion
 
     constructor(images, x, y, percentage) {
         super();

@@ -1,4 +1,4 @@
-export class ImageHelper {
+export class ImageHub {
     // #region background
     static BACKGROUND = {
         firstLayer: [
@@ -224,4 +224,53 @@ export class ImageHelper {
             'assets/img/7_statusbars/2_statusbar_endboss/green/green100.png'
         ]
     }
+    // #endregion
+    
+    // #region startscreen
+    static START = {
+        start: [
+            'assets/img/10_intro_outro_screens/start/startscreen_2.png'
+        ]
+    }
+    // #endregion
+    
+    // #region flask rotation
+    static ROTATE = {
+        flask: [
+            'assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+        ]
+    }
+    // #endregion
+    
+    // #region flask splash
+    static SPLASH = {
+        flask: [
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
+            'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
+        ]
+    }
+    // #endregion
+
+    // #region winscreen
+    static WIN = {
+        win: [
+            'assets/img/You won, you lost/You Win A.png'
+        ]
+    }
+    // #endregion
+    
+    // #region endscreen
+    static END = {
+        end: [
+            'assets/img/10_intro_outro_screens/game_over/oh no you lost!.png'
+        ]
+    }
+    // #endregion
 }

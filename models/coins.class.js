@@ -1,13 +1,13 @@
 import { MovableObject } from "./movables_object.class.js";
-import { ImageHelper } from "../helper/image_helper.class.js";
+import { ImageHub } from "../helper/image_helper.class.js";
 
 export class Coin extends MovableObject {
     // #region coin properties
-    image = ImageHelper.COINS.coin;
+    image = ImageHub.COINS.coin;
     width = 120;
     height = 120;
     y = 120;
-    showFrame = true;
+    showFrame = false;
     offset = {top: 40, right: 40, bottom: 40, left: 40};
     // #endregion
 
