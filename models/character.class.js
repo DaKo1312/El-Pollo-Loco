@@ -34,9 +34,12 @@ export class Character extends MovableObject {
         this.loadImages(this.imagesHurt);
         this.loadImages(this.imagesDead);
         this.applyGravity();
+    }
+    
+    start() {
         this.animate();
     }
-
+    
     animate() {
         IntervalHub.startInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {

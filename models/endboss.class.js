@@ -16,7 +16,6 @@ export class Endboss extends MovableObject {
     currentImage = 0;
     showFrame = false;
     groundY = -40;
-    
     // # endregion
 
     constructor() {
@@ -24,7 +23,6 @@ export class Endboss extends MovableObject {
         this.y = -40;
         this.loadImage(this.imagesAlert[0]);
         this.loadImages(this.imagesAlert);
-        this.animate();
     }
 
     animate() {

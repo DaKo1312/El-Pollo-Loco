@@ -16,4 +16,8 @@ export class Enemy extends MovableObject {
             this.playAnimation(this.imagesWalk);
         }, 1000 / 5);
     }
+
+    start() {
+        this.animate();
+        }
 }

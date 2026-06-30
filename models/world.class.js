@@ -139,4 +139,15 @@ export class World {
             this.ctx.restore();
         }
     }
+
+    startGame() {
+        this.character.start();
+        this.level.enemies.forEach(enemy => {
+            enemy.start();
+        });
+        this.level.clouds.forEach(cloud => {
+            cloud.start();
+        });
+        this.checkCollisions();
+    }
 }

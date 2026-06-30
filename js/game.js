@@ -6,13 +6,23 @@ let world;
 let keyboard = new GameKeyboard();
 
 function init() {
-    canvas = document.getElementById('canvas');
+    canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
-    
-    window.init = init;
+    world.startGame();
+    document.getElementById("start_button").style.display = "none";
 }
 
-window.addEventListener('load', init);
+window.addEventListener("load", () => {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.src = "assets/img/10_intro_outro_screens/start/startscreen_2.png";
+    img.onload = () => {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+    document.getElementById("start_button")
+    .addEventListener("click", init);
+});
 
 window.addEventListener("keydown", (e) => {
     if (e.code === "ArrowRight") {

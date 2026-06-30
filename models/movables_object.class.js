@@ -43,7 +43,6 @@ export class MovableObject extends DrawableObject {
         if (this.energy < 0) {
             this.energy = 0;
         }
-        console.log('HIT, energy', this.energy);
         this.lastHit = Date.now();
         this.world.statusBar.setPercentage(this.energy);
         }

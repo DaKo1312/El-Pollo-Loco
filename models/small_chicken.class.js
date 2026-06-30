@@ -19,7 +19,6 @@ export class SmallChicken extends Enemy {
         this.loadImage(this.imagesWalk[0]);
         this.loadImages(this.imagesWalk);
         this.speed = 0.15 + Math.random() * 0.5;
-        this.animate();
         this.applyGravity();
         this.startJumping();
 
