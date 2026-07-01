@@ -19,6 +19,7 @@ export class World {
     flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);  
     throwableObjects = [];
     endboss = null;
+    gameEnded = false;
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -52,8 +53,10 @@ export class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit(enemy.damage);
-                }
+                    this.checkGameOver();
+                    }
             });
+            this.checkGameOver();
         }, 100);
     }
 
@@ -168,4 +171,17 @@ export class World {
         this.checkCollisions();
     }
 
+    checkGameOver() {
+        if (!this.gameEnded && this.character.energy <= 0) {
+            this.gameEnded = true;
+            this.gameOver();
+        }
+    }
+
+    gameOver() {
+        IntervalHub.stopAllIntervals();
+        document
+            .getElementById("game_over_screen")
+            .classList.remove("hidden");
+    }
 }

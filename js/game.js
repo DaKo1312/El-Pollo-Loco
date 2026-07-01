@@ -12,6 +12,10 @@ function init() {
     document.getElementById("start_button").style.display = "none";
 }
 
+function restartGame() {
+    location.reload();
+}
+
 window.addEventListener("load", () => {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -24,6 +28,8 @@ window.addEventListener("load", () => {
     .addEventListener("click", init);
     document.getElementById("fullscreen_button")
         .addEventListener("click", toggleFullscreen);
+    document.getElementById("restart_button")
+        .addEventListener("click", restartGame);
 });
 
 window.addEventListener("keydown", (e) => {
