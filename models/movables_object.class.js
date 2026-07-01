@@ -37,9 +37,9 @@ export class MovableObject extends DrawableObject {
     );
     }
 
-    hit() {
+    hit(damage) {
     if (!this.isHurt()) {
-        this.energy -= 5;
+        this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         }

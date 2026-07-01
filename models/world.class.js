@@ -4,6 +4,7 @@ import { IntervalHub } from '../helper/interval_helper.class.js';
 import { StatusBar } from "./status_bar.class.js";
 import { ImageHub } from "../helper/image_helper.class.js";
 import { ThrowableObject } from "./throwable_object.class.js";
+import { Endboss } from "./endboss.class.js";
 
 export class World {
     // #region world properties
@@ -17,6 +18,7 @@ export class World {
     coinStatusBar = new StatusBar(ImageHub.STATUSBAR.coin, 20, 55);
     flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);  
     throwableObjects = [];
+    endboss = null;
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -24,6 +26,7 @@ export class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
+        this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss);
         this.checkCollisions();
         this.draw();
     }
@@ -40,6 +43,7 @@ export class World {
         this.checkCoinCollisions();
         this.checkFlaskCollisions();
         this.checkThrowableObjects();
+        this.checkBossActivation();
         this.statusBar.setPercentage(this.character.energy);
     }
 
@@ -47,7 +51,7 @@ export class World {
         IntervalHub.startInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    this.character.hit();
+                    this.character.hit(enemy.damage);
                 }
             });
         }, 100);
@@ -80,7 +84,7 @@ export class World {
             });
         }, 100);
     }
-
+    
     checkThrowableObjects() {
         IntervalHub.startInterval(() => {
             if (this.keyboard.D && this.character.flasks > 0) {
@@ -94,6 +98,18 @@ export class World {
                 this.character.flasks--;
                 this.flaskStatusBar.setPercentage(this.character.flasks * 10);
                 this.keyboard.D = false;
+            }
+        }, 100);
+    }
+    
+    checkBossActivation() {
+        IntervalHub.startInterval(() => {
+            console.log(this.character.x);
+            if (!this.endboss) {
+                return;
+            }
+            if (!this.endboss.isActivated && this.character.x >= 6450) {
+                this.endboss.activate();
             }
         }, 100);
     }
@@ -143,11 +159,14 @@ export class World {
     startGame() {
         this.character.start();
         this.level.enemies.forEach(enemy => {
-            enemy.start();
+            if (!(enemy instanceof Endboss)) {
+                enemy.start();
+            }
         });
         this.level.clouds.forEach(cloud => {
             cloud.start();
         });
         this.checkCollisions();
     }
+
 }

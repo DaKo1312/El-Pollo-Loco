@@ -4,6 +4,7 @@ import { IntervalHub } from "../helper/interval_helper.class.js";
 export class Enemy extends MovableObject {
     currentImage = 0;
     showFrame = false;
+    damage = 5;
 
     constructor() {
         super();
