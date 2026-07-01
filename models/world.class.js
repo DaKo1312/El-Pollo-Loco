@@ -104,7 +104,6 @@ export class World {
     
     checkBossActivation() {
         IntervalHub.startInterval(() => {
-            console.log(this.character.x);
             if (!this.endboss) {
                 return;
             }

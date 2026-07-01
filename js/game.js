@@ -22,6 +22,8 @@ window.addEventListener("load", () => {
     };
     document.getElementById("start_button")
     .addEventListener("click", init);
+    document.getElementById("fullscreen_button")
+        .addEventListener("click", toggleFullscreen);
 });
 
 window.addEventListener("keydown", (e) => {
@@ -53,3 +55,20 @@ window.addEventListener("keyup", (e) => {
         keyboard.D = false;
     }
 });
+
+function toggleFullscreen() {
+    let fullscreen = document.getElementById("fullscreen");
+    if (!document.fullscreenElement) {
+        if (fullscreen.requestFullscreen) {
+            fullscreen.requestFullscreen();
+        } else if (fullscreen.webkitRequestFullscreen) {
+            fullscreen.webkitRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+}
