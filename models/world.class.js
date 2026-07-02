@@ -179,9 +179,12 @@ export class World {
     }
 
     gameOver() {
-        IntervalHub.stopAllIntervals();
-        document
-            .getElementById("game_over_screen")
-            .classList.remove("hidden");
+        this.gameEnded = true;
+        setTimeout(() => {
+            IntervalHub.stopAllIntervals();
+            document
+                .getElementById("game_over_screen")
+                .classList.remove("hidden");
+        }, 2000);
     }
 }
