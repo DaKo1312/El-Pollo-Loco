@@ -20,6 +20,7 @@ export class World {
     throwableObjects = [];
     endboss = null;
     gameEnded = false;
+    showBossStatusBar = false;
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -51,10 +52,7 @@ export class World {
     checkEnemyCollisions() {
         IntervalHub.startInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit(enemy.damage);
-                    this.checkGameOver();
-                    }
+                this.handleEnemyCollision(enemy);
             });
             this.checkGameOver();
         }, 100);
@@ -112,6 +110,7 @@ export class World {
             }
             if (!this.endboss.isActivated && this.character.x >= 6450) {
                 this.endboss.activate();
+                this.showBossStatusBar = true;
             }
         }, 100);
     }
@@ -186,5 +185,20 @@ export class World {
                 .getElementById("game_over_screen")
                 .classList.remove("hidden");
         }, 2000);
+    }
+
+    handleEnemyCollision(enemy) {
+        if (enemy.isDead) {
+            return;
+        }
+        if (!this.character.isColliding(enemy)) {
+            return;
+        }
+        if (this.character.isJumpingOn(enemy)) {
+            enemy.hit();
+            this.character.bounce();
+        } else {
+            this.character.hit(enemy.damage);
+        }
     }
 }

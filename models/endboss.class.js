@@ -52,7 +52,6 @@ export class Endboss extends MovableObject {
     }
 
     activate() {
-        console.log("Boss aktiviert");
         if (this.isActivated) {
             return;
         }

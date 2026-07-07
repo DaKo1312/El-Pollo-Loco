@@ -10,6 +10,7 @@ export class MovableObject extends DrawableObject {
     acceleration = 2.5;
     showFrame = false;
     groundY = 145;
+    lastY = 0;
     energy = 100;
     lastHit = 0;
     offset = {top: 0, right: 0, bottom: 0, left: 0};
@@ -17,11 +18,12 @@ export class MovableObject extends DrawableObject {
 
     applyGravity() {
         IntervalHub.startInterval(() => {
+            this.lastY = this.y;
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000/25);
+        }, 1000 / 25);
     }
 
     isAboveGround() {

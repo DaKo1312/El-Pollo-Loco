@@ -5,6 +5,8 @@ export class Enemy extends MovableObject {
     currentImage = 0;
     showFrame = false;
     damage = 10;
+    isDead = false;
+    isWalking = true;
 
     constructor() {
         super();
@@ -12,13 +14,24 @@ export class Enemy extends MovableObject {
     }
 
     animate() {
-        this.moveLeft();
         IntervalHub.startInterval(() => {
-            this.playAnimation(this.imagesWalk);
-        }, 1000 / 5);
+            if (!this.isDead && this.isWalking) {
+                this.x -= this.speed;
+            }
+        }, 1000 / 60);
+        IntervalHub.startInterval(() => {
+            if (!this.isDead && this.isWalking) {
+                this.playAnimation(this.imagesWalk);
+            }
+        }, 1000 / 8);
     }
 
     start() {
         this.animate();
         }
+
+    hit() {
+        this.isDead = true;
+        this.loadImage(this.imagesDead[0]);
+    }
 }

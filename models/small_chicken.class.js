@@ -15,25 +15,19 @@ export class SmallChicken extends Enemy {
 
     constructor() {
         super();
-        this.y = 370;
+        // this.y = 370;
         this.loadImage(this.imagesWalk[0]);
         this.loadImages(this.imagesWalk);
         this.speed = 0.15 + Math.random() * 0.5;
         this.applyGravity();
         this.startJumping();
-
-        IntervalHub.startInterval(() => {
-            if (!this.isAboveGround()) {
-                this.jump();
-            }
-        }, 2000 + Math.random() * 2000);
     }
 
     startJumping() {
         IntervalHub.startInterval(() => {
-            if (!this.isAboveGround()) {
+            if (!this.isDead && !this.isAboveGround()) {
                 this.jump();
             }
-        }, 2000 + Math.random() * 2000);
+        }, 2000);
     }
 }

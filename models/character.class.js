@@ -88,5 +88,20 @@ export class Character extends MovableObject {
         this.flasks++;
         this.world.flaskStatusBar.setPercentage(this.flasks * 20);
     }
+
+    isJumpingOn(enemy) {
+        const previousBottom = this.lastY + this.height - this.offset.bottom;
+        const currentBottom = this.y + this.height - this.offset.bottom;
+        const enemyTop = enemy.y + enemy.offset.top;
+        return (
+            this.speedY < 0 &&
+            previousBottom <= enemyTop &&
+            currentBottom >= enemyTop
+        );
+    }
+
+    bounce() {
+        this.speedY = 15;
+    }
 }
 
