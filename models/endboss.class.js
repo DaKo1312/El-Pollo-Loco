@@ -19,8 +19,12 @@ export class Endboss extends MovableObject {
     isActivated = false;
     isAlert = false;
     isWalking = false;
+    isAttacking = false;
     speed = 1;
     damage = 20;
+    energy = 100;
+    isDead = false;
+    isHurt = false;
     // # endregion
 
     constructor() {
@@ -42,13 +46,16 @@ export class Endboss extends MovableObject {
             }
         }, 1000 / 60);
         IntervalHub.startInterval(() => {
-            if (this.isAlert) {
-                this.playAnimation(this.imagesAlert);
-            }
-            if (this.isWalking) {
-                this.playAnimation(this.imagesWalk);
-            }
+            this.playCurrentAnimation();
         }, 1000 / 8);
+    }
+
+    playCurrentAnimation() {
+        if (this.isDead) return this.playAnimation(this.imagesDead);
+        if (this.isHurt) return this.playAnimation(this.imagesHurt);
+        if (this.isAttacking) return this.playAnimation(this.imagesAttack);
+        if (this.isAlert) return this.playAnimation(this.imagesAlert);
+        if (this.isWalking) return this.playAnimation(this.imagesWalk);
     }
 
     activate() {
@@ -62,15 +69,41 @@ export class Endboss extends MovableObject {
             this.isWalking = true;
             this.start();
         }, 1500);
-
-        setTimeout(() => {
-            this.isAlert = false;
-            this.isWalking = true;
-            this.start();
-        }, 1500);
     }
 
     start() {
         this.animate();
+        this.testAttack();
+    }
+
+    testAttack() {
+        setTimeout(() => {
+            this.attack();
+        }, 4000);
+    }
+
+    attack() {
+        console.log("ATTACK");
+        this.isAttacking = true;
+        setTimeout(() => {
+            this.isAttacking = false;
+        }, 800);
+    }
+
+    hit(damage) {
+        if (this.isDead) {
+            return;
+        }
+        this.energy -= damage;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }
+        this.isHurt = true;
+        setTimeout(() => {
+            this.isHurt = false;
+        }, 300);
+        if (this.energy === 0) {
+            this.isDead = true;
+        }
     }
 }

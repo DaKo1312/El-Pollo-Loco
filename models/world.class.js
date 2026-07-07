@@ -16,11 +16,11 @@ export class World {
     camera_x = 0;
     statusBar = new StatusBar(ImageHub.STATUSBAR.health, 20, 5);
     coinStatusBar = new StatusBar(ImageHub.STATUSBAR.coin, 20, 55);
-    flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);  
+    flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);
+    endbossStatusBar = new StatusBar(ImageHub.BOSSBAR.health, 500, 15, 100);
     throwableObjects = [];
     endboss = null;
     gameEnded = false;
-    showBossStatusBar = false;
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -45,6 +45,7 @@ export class World {
         this.checkCoinCollisions();
         this.checkFlaskCollisions();
         this.checkThrowableObjects();
+        this.checkThrowableObjectCollisions();
         this.checkBossActivation();
         this.statusBar.setPercentage(this.character.energy);
     }
@@ -129,7 +130,9 @@ export class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.flaskStatusBar);
-
+        if (this.endboss && this.endboss.isActivated) {
+            this.addToMap(this.endbossStatusBar);
+        }
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
@@ -194,11 +197,45 @@ export class World {
         if (!this.character.isColliding(enemy)) {
             return;
         }
+        if (enemy instanceof Endboss) {
+            this.character.hit(enemy.damage);
+            return;
+        }
         if (this.character.isJumpingOn(enemy)) {
             enemy.hit();
             this.character.bounce();
         } else {
             this.character.hit(enemy.damage);
         }
+    }
+
+    checkThrowableObjectCollisions() {
+        this.throwableObjects.forEach((bottle) => {
+            this.checkBottleCollision(bottle);
+        });
+    }
+
+    checkBottleCollision(bottle) {
+        if (bottle.isSplashing) {
+            return;
+        }
+        this.level.enemies.forEach((enemy) => {
+            this.handleBottleHit(bottle, enemy);
+        });
+    }
+
+    handleBottleHit(bottle, enemy) {
+        if (enemy.isDead || !bottle.isColliding(enemy)) {
+            return;
+        }
+        enemy instanceof Endboss
+            ? this.hitEndboss(enemy)
+            : enemy.hit();
+        bottle.isSplashing = true;
+    }
+
+    hitEndboss(enemy) {
+        enemy.hit(20);
+        this.endbossStatusBar.setPercentage(enemy.energy);
     }
 }

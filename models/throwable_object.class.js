@@ -27,7 +27,7 @@ export class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 20;
+        this.speedY = 15;
         this.applyGravity();
         IntervalHub.startInterval(() => {
             if (!this.isSplashing) {
