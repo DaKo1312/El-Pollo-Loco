@@ -73,19 +73,23 @@ export class Endboss extends MovableObject {
 
     start() {
         this.animate();
-        this.testAttack();
+        this.startAttacking();
     }
 
-    testAttack() {
-        setTimeout(() => {
+    startAttacking() {
+        IntervalHub.startInterval(() => {
+            if (!this.isWalking || this.isDead || this.isAttacking) {
+                return;
+            }
             this.attack();
-        }, 4000);
+        }, 2500);
     }
 
     attack() {
-        console.log("ATTACK");
+        this.currentImage = 0;
         this.isAttacking = true;
         setTimeout(() => {
+            this.currentImage = 0;
             this.isAttacking = false;
         }, 800);
     }

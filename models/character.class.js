@@ -92,11 +92,11 @@ export class Character extends MovableObject {
     isJumpingOn(enemy) {
         const previousBottom = this.lastY + this.height - this.offset.bottom;
         const currentBottom = this.y + this.height - this.offset.bottom;
-        const enemyTop = enemy.y + enemy.offset.top;
+        const enemyTop = enemy.y + enemy.offset.top + 10;
         return (
             this.speedY < 0 &&
             previousBottom <= enemyTop &&
-            currentBottom >= enemyTop
+            currentBottom >= enemyTop - 15
         );
     }
 

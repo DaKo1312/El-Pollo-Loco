@@ -86,7 +86,7 @@ export class World {
             });
         }, 100);
     }
-    
+
     checkThrowableObjects() {
         IntervalHub.startInterval(() => {
             if (this.keyboard.D && this.character.flasks > 0) {
@@ -103,7 +103,34 @@ export class World {
             }
         }, 100);
     }
-    
+
+    checkThrowableObjectCollisions() {
+        IntervalHub.startInterval(() => {
+            this.throwableObjects.forEach((flask) => {
+                this.checkThrowableObjectCollision(flask);
+            });
+        }, 1000 / 60);
+    }
+
+    checkThrowableObjectCollision(flask) {
+        if (flask.isSplashing) {
+            return;
+        }
+        this.level.enemies.forEach((enemy) => {
+            this.handleThrowableObjectHit(flask, enemy);
+        });
+    }
+
+    handleThrowableObjectHit(flask, enemy) {
+        if (enemy.isDead) {
+            return;
+        }
+        if (!flask.isColliding(enemy)) {
+            return;
+        }
+        flask.isSplashing = true;
+    }
+
     checkBossActivation() {
         IntervalHub.startInterval(() => {
             if (!this.endboss) {
@@ -207,12 +234,6 @@ export class World {
         } else {
             this.character.hit(enemy.damage);
         }
-    }
-
-    checkThrowableObjectCollisions() {
-        this.throwableObjects.forEach((bottle) => {
-            this.checkBottleCollision(bottle);
-        });
     }
 
     checkBottleCollision(bottle) {

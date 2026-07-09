@@ -7,6 +7,8 @@ export class ThrowableObject extends MovableObject {
     imagesRotate = ImageHub.ROTATE.flask;
     imagesSplash = ImageHub.SPLASH.flask;
     isSplashing = false;
+    showFrame = true;
+    offset = {top: 50, right: 20, bottom: 50, left: 25};
 
     // #endregion
 
