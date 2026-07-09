@@ -25,6 +25,8 @@ export class Endboss extends MovableObject {
     energy = 100;
     isDead = false;
     isHurt = false;
+    deadAnimationFinished = false;
+    deadImage = 0;
     // # endregion
 
     constructor() {
@@ -36,26 +38,52 @@ export class Endboss extends MovableObject {
         this.loadImages(this.imagesHurt);
         this.loadImages(this.imagesDead);
         this.animate();
-
     }
 
     animate() {
         IntervalHub.startInterval(() => {
-            if (this.isWalking) {
+            if (this.isWalking && !this.isDead) {
                 this.x -= this.speed;
             }
         }, 1000 / 60);
         IntervalHub.startInterval(() => {
-            this.playCurrentAnimation();
+            if (!this.isDead) {
+                this.playCurrentAnimation();
+            }
         }, 1000 / 8);
+        IntervalHub.startInterval(() => {
+            if (this.isDead) {
+                this.playDeadAnimation();
+            }
+        }, 500);
     }
 
     playCurrentAnimation() {
-        if (this.isDead) return this.playAnimation(this.imagesDead);
         if (this.isHurt) return this.playAnimation(this.imagesHurt);
         if (this.isAttacking) return this.playAnimation(this.imagesAttack);
         if (this.isAlert) return this.playAnimation(this.imagesAlert);
-        if (this.isWalking) return this.playAnimation(this.imagesWalk);
+        if (this.isWalking) this.playAnimation(this.imagesWalk);
+    }
+
+    playDeadAnimation() {
+        if (this.deadAnimationFinished) {
+            return;
+        }
+        this.img = this.imageCache[this.imagesDead[this.deadImage]];
+        if (this.deadImage < this.imagesDead.length - 1) {
+            this.deadImage++;
+        } else {
+            this.deadAnimationFinished = true;
+        }
+    }
+
+    playAnimationFrame() {
+        this.loadImage(this.imagesDead[this.currentImage]);
+        if (this.currentImage < this.imagesDead.length - 1) {
+            setTimeout(() => this.currentImage++, 500);
+        } else {
+            this.deadAnimationFinished = true;
+        }
     }
 
     activate() {
@@ -107,6 +135,7 @@ export class Endboss extends MovableObject {
             this.isHurt = false;
         }, 300);
         if (this.energy === 0) {
+            this.deadImage = 0;
             this.isDead = true;
         }
     }

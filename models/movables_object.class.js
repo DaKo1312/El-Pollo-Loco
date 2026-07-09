@@ -42,8 +42,9 @@ export class MovableObject extends DrawableObject {
     hit(damage) {
     if (!this.isHurt()) {
         this.energy -= damage;
-        if (this.energy < 0) {
-            this.energy = 0;
+        if (this.energy === 0) {
+            this.currentImage = 0;
+            this.isDead = true;
         }
         this.lastHit = Date.now();
         this.world.statusBar.setPercentage(this.energy);
@@ -74,5 +75,14 @@ export class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
+    }
+
+    playAnimationOnce(images) {
+        if (this.currentImage >= images.length) {
+            return true;
+        }
+        this.img = this.imageCache[images[this.currentImage]];
+        this.currentImage++;
+        return false;
     }
 }

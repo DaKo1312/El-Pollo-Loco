@@ -122,13 +122,20 @@ export class World {
     }
 
     handleThrowableObjectHit(flask, enemy) {
-        if (enemy.isDead) {
-            return;
-        }
-        if (!flask.isColliding(enemy)) {
+        if (enemy.isDead || !flask.isColliding(enemy)) {
             return;
         }
         flask.isSplashing = true;
+        this.damageEnemy(enemy);
+    }
+
+    damageEnemy(enemy) {
+        if (enemy instanceof Endboss) {
+            enemy.hit(20);
+            this.endbossStatusBar.setPercentage(enemy.energy);
+            return;
+        }
+        enemy.hit();
     }
 
     checkBossActivation() {
@@ -249,9 +256,7 @@ export class World {
         if (enemy.isDead || !bottle.isColliding(enemy)) {
             return;
         }
-        enemy instanceof Endboss
-            ? this.hitEndboss(enemy)
-            : enemy.hit();
+        this.damageEnemy(enemy);
         bottle.isSplashing = true;
     }
 
