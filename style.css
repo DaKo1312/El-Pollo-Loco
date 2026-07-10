@@ -45,12 +45,17 @@ canvas {
     height: 480px;
 }
 
-#start_button {
+.start_buttons {
     position: absolute;
-    left: 50%;
     bottom: 20px;
-    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
     z-index: 10;
+}
+
+.start_buttons button {
     padding: 6px 12px;
     border: none;
     border-radius: 10px;
@@ -59,6 +64,15 @@ canvas {
     font-family: "Rye";
     cursor: pointer;
     background-color: rgba(255, 191, 0, 0.638);
+}
+
+#start_button {
+    min-width: 160px;
+}
+
+#how_to_play_button,
+#sound_button {
+    min-width: 140px;
 }
 
 @media only screen and (max-width: 760px) {
@@ -101,7 +115,7 @@ canvas {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 48px;
-    z-index: 100;
+    z-index: 300;
 }
 
 #fullscreen:fullscreen h1 {
@@ -130,6 +144,15 @@ canvas {
     justify-content: center;
     align-items: center;
     z-index: 200;
+}
+
+.start_buttons {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
 }
 
 .hidden {

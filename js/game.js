@@ -1,36 +1,47 @@
 import { World } from '../models/world.class.js';
 import { GameKeyboard } from '../models/keyboard.class.js';
+import { startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
 
 let canvas;
 let world;
 let keyboard = new GameKeyboard();
 
 function init() {
+    document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
     world.startGame();
-    document.getElementById("start_button").style.display = "none";
 }
 
 function restartGame() {
     location.reload();
 }
 
+function renderTemplates() {
+    document.getElementById("start_screen").innerHTML = startScreenTemplate();
+    document.getElementById("game_over_screen").innerHTML = gameOverTemplate();
+    document.getElementById("win_screen").innerHTML = winScreenTemplate();
+    document.getElementById("how_to_play_screen").innerHTML = howToPlayTemplate();
+}
+
 window.addEventListener("load", () => {
+    renderTemplates();
+    renderStartScreen();
+    registerButtons();
+});
+
+function renderStartScreen() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const img = new Image();
     img.src = "assets/img/10_intro_outro_screens/start/startscreen_2.png";
-    img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    document.getElementById("start_button")
-    .addEventListener("click", init);
-    document.getElementById("fullscreen_button")
-        .addEventListener("click", toggleFullscreen);
-    document.getElementById("restart_button")
-        .addEventListener("click", restartGame);
-});
+    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+
+function registerButtons() {
+    document.getElementById("start_button").addEventListener("click", init);
+    document.getElementById("fullscreen_button").addEventListener("click", toggleFullscreen);
+}
 
 window.addEventListener("keydown", (e) => {
     if (e.code === "ArrowRight") {
