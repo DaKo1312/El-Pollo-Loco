@@ -19,10 +19,22 @@ export function howToPlayTemplate() {
         <div class="how_to_play_content">
             <h2>HOW TO PLAY</h2>
             <div class="controls">
-                <p>⬅️ Move Left</p>
-                <p>➡️ Move Right</p>
-                <p>SPACE Jump</p>
-                <p>D Throw Flask</p>
+                <div class="control_row">
+                    <span class="key">←</span>
+                    <span>Move Left</span>
+                </div>
+                <div class="control_row">
+                    <span class="key">→</span>
+                    <span>Move Right</span>
+                </div>
+                <div class="control_row">
+                    <span class="key">SPACE</span>
+                    <span>Jump</span>
+                </div>
+                <div class="control_row">
+                    <span class="key">D</span>
+                    <span>Throw Flask</span>
+                </div>
             </div>
             <button id="close_how_to_play_button">
                 CLOSE

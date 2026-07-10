@@ -17,11 +17,23 @@ function restartGame() {
     location.reload();
 }
 
+function goHome() {
+    document.getElementById("game_over_screen").classList.add("hidden");
+    document.getElementById("win_screen").classList.add("hidden");
+    document.getElementById("how_to_play_screen").classList.add("hidden");
+    document.getElementById("start_screen").classList.remove("hidden");
+    renderStartScreen();
+}
+
 function renderTemplates() {
     document.getElementById("start_screen").innerHTML = startScreenTemplate();
+    document.getElementById("how_to_play_screen").innerHTML = howToPlayTemplate();
     document.getElementById("game_over_screen").innerHTML = gameOverTemplate();
     document.getElementById("win_screen").innerHTML = winScreenTemplate();
-    document.getElementById("how_to_play_screen").innerHTML = howToPlayTemplate();
+    document.getElementById("start_screen").className = "overlay";
+    document.getElementById("how_to_play_screen").className = "overlay hidden";
+    document.getElementById("game_over_screen").className = "overlay hidden";
+    document.getElementById("win_screen").className = "overlay hidden";
 }
 
 window.addEventListener("load", () => {
@@ -38,9 +50,33 @@ function renderStartScreen() {
     img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 }
 
+function openHowToPlay() {
+    document.getElementById("how_to_play_screen").classList.remove("hidden");
+}
+
+function closeHowToPlay() {
+    document.getElementById("how_to_play_screen").classList.add("hidden");
+}
+
+function toggleSound() {
+    document.getElementById("sound_button").classList.toggle("muted");
+}
+
 function registerButtons() {
-    document.getElementById("start_button").addEventListener("click", init);
-    document.getElementById("fullscreen_button").addEventListener("click", toggleFullscreen);
+    document.getElementById("start_button")
+        .addEventListener("click", init);
+    document.getElementById("how_to_play_button")
+        .addEventListener("click", openHowToPlay);
+    document.getElementById("close_how_to_play_button")
+        .addEventListener("click", closeHowToPlay);
+    document.getElementById("sound_button")
+        .addEventListener("click", toggleSound);
+    document.querySelectorAll(".home_button")
+        .forEach(button => button.addEventListener("click", goHome));
+    document.querySelectorAll(".restart_button")
+        .forEach(button => button.addEventListener("click", restartGame));
+    document.getElementById("fullscreen_button")
+        .addEventListener("click", toggleFullscreen);
 }
 
 window.addEventListener("keydown", (e) => {

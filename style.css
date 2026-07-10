@@ -180,3 +180,79 @@ canvas {
     cursor: pointer;
     background-color: rgba(255, 191, 0, 0.638);
 }
+
+.how_to_play_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 40px;
+    min-width: 420px;
+    border-radius: 24px;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.how_to_play_content h2 {
+    margin: 0;
+    color: white;
+    font-size: 42px;
+    font-family: "Rye";
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+}
+
+.control_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 24px;
+    font-family: "Rye";
+}
+
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 90px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(255, 191, 0, 0.65);
+    color: black;
+}
+
+#close_how_to_play_button {
+    padding: 6px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: "Rye";
+    background: rgba(255, 191, 0, 0.65);
+}
+
+#sound_button {
+    position: relative;
+}
+
+#sound_button.muted {
+    opacity: 0.55;
+}
+
+#sound_button.muted::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: #c00000;
+    transform: rotate(-8deg);
+    transform-origin: center;
+    border-radius: 3px;
+}
