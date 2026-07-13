@@ -256,3 +256,10 @@ canvas {
     transform-origin: center;
     border-radius: 3px;
 }
+
+#win_screen img,
+#game_over_screen img {
+    width: 70%;
+    max-width: 720px;
+    height: auto;
+}

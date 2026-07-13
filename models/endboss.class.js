@@ -132,6 +132,7 @@ export class Endboss extends MovableObject {
             this.isHurt = false;
         }, 300);
         if (this.energy === 0) {
+            console.log("BOSS TOT");
             this.deadImage = 0;
             this.isDead = true;
         }

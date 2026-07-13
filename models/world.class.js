@@ -1,5 +1,5 @@
 import { Character } from './character.class.js';
-import { level1 } from "../levels/level1.js";
+import { createLevel1 } from "../levels/level1.js";
 import { IntervalHub } from '../helper/interval_helper.class.js';
 import { StatusBar } from "./status_bar.class.js";
 import { ImageHub } from "../helper/image_helper.class.js";
@@ -12,7 +12,7 @@ export class World {
     canvas;
     ctx;
     keyboard;
-    level = level1;
+    level = createLevel1();
     camera_x = 0;
     statusBar = new StatusBar(ImageHub.STATUSBAR.health, 20, 5);
     coinStatusBar = new StatusBar(ImageHub.STATUSBAR.coin, 20, 55);
@@ -21,12 +21,14 @@ export class World {
     throwableObjects = [];
     endboss = null;
     gameEnded = false;
+    hasWon = false;
     // #endregion
 
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.isRunning = true;
         this.setWorld();
         this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss);
         this.checkCollisions();
@@ -137,6 +139,9 @@ export class World {
             return;
         }
         enemy.hit();
+        if (enemy.energy <= 0) {
+            enemy.isDead = true;
+        }
     }
 
     checkBossActivation() {
@@ -152,14 +157,20 @@ export class World {
     }
 
     checkWin() {
-        if (!this.endboss.isDead) {
-            return;
-        }
-        document.getElementById("win_screen")
-            .classList.remove("hidden");
+        IntervalHub.startInterval(() => {
+            if (this.hasWon) {
+                return;
+            }
+            if (!this.endboss.isDead) {
+                return;
+            }
+            this.hasWon = true;
+            document.getElementById("win_screen").classList.remove("hidden");
+        }, 100);
     }
 
     draw() {
+        if (!this.isRunning) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectToMap(this.level.backgroundObjects);
@@ -173,13 +184,8 @@ export class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.flaskStatusBar);
-        if (this.endboss && this.endboss.isActivated) {
-            this.addToMap(this.endbossStatusBar);
-        }
-        let self = this;
-        requestAnimationFrame(function() {
-            self.draw();
-        });
+        if (this.endboss && this.endboss.isActivated) this.addToMap(this.endbossStatusBar);
+        requestAnimationFrame(() => this.draw());
     }
 
     addObjectToMap(objects) {

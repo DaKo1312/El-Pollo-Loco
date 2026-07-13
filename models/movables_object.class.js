@@ -40,14 +40,12 @@ export class MovableObject extends DrawableObject {
     }
 
     hit(damage) {
-    if (!this.isHurt()) {
-        this.energy -= damage;
-        if (this.energy === 0) {
+        if (!this.isHurt()) {
+            this.energy -= damage;
+            if (this.energy < 0) this.energy = 0;
             this.currentImage = 0;
-            this.isDead = true;
-        }
-        this.lastHit = Date.now();
-        this.world.statusBar.setPercentage(this.energy);
+            this.lastHit = Date.now();
+            this.world.statusBar.setPercentage(this.energy);
         }
     }
 

@@ -46,7 +46,7 @@ export function howToPlayTemplate() {
 export function gameOverTemplate() {
     return `
         <img src="assets/img/You won, you lost/You lost b.png">
-        <div class="overlay_buttons">
+        <div class="start_buttons">
             <button class="home_button">
                 HOME
             </button>
@@ -60,7 +60,7 @@ export function gameOverTemplate() {
 export function winScreenTemplate() {
     return `
         <img src="assets/img/You won, you lost/You Win A.png">
-        <div class="overlay_buttons">
+        <div class="start_buttons">
             <button class="home_button">
                 HOME
             </button>

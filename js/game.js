@@ -1,5 +1,6 @@
 import { World } from '../models/world.class.js';
 import { GameKeyboard } from '../models/keyboard.class.js';
+import { IntervalHub } from "../helper/interval_helper.class.js";
 import { startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
 
 let canvas;
@@ -18,10 +19,13 @@ function restartGame() {
 }
 
 function goHome() {
+    IntervalHub.stopAllIntervals();
+    if (world) world.isRunning = false;
     document.getElementById("game_over_screen").classList.add("hidden");
     document.getElementById("win_screen").classList.add("hidden");
     document.getElementById("how_to_play_screen").classList.add("hidden");
     document.getElementById("start_screen").classList.remove("hidden");
+    world = null;
     renderStartScreen();
 }
 
