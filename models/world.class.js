@@ -47,6 +47,7 @@ export class World {
         this.checkThrowableObjects();
         this.checkThrowableObjectCollisions();
         this.checkBossActivation();
+        this.checkWin();
         this.statusBar.setPercentage(this.character.energy);
     }
 
@@ -150,6 +151,14 @@ export class World {
         }, 100);
     }
 
+    checkWin() {
+        if (!this.endboss.isDead) {
+            return;
+        }
+        document.getElementById("win_screen")
+            .classList.remove("hidden");
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -243,21 +252,21 @@ export class World {
         }
     }
 
-    checkBottleCollision(bottle) {
-        if (bottle.isSplashing) {
+    checkFlaskCollision(flask) {
+        if (flask.isSplashing) {
             return;
         }
         this.level.enemies.forEach((enemy) => {
-            this.handleBottleHit(bottle, enemy);
+            this.handleFlaskHit(flask, enemy);
         });
     }
 
-    handleBottleHit(bottle, enemy) {
-        if (enemy.isDead || !bottle.isColliding(enemy)) {
+    handleFlaskHit(flask, enemy) {
+        if (enemy.isDead || !flask.isColliding(enemy)) {
             return;
         }
         this.damageEnemy(enemy);
-        bottle.isSplashing = true;
+        flask.isSplashing = true;
     }
 
     hitEndboss(enemy) {

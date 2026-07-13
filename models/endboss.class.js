@@ -23,8 +23,8 @@ export class Endboss extends MovableObject {
     speed = 1;
     damage = 20;
     energy = 100;
-    isDead = false;
     isHurt = false;
+    isDead = false;
     deadAnimationFinished = false;
     deadImage = 0;
     // # endregion
@@ -126,10 +126,7 @@ export class Endboss extends MovableObject {
         if (this.isDead) {
             return;
         }
-        this.energy -= damage;
-        if (this.energy < 0) {
-            this.energy = 0;
-        }
+        this.energy = Math.max(0, this.energy - damage);
         this.isHurt = true;
         setTimeout(() => {
             this.isHurt = false;
