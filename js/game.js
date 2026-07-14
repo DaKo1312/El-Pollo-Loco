@@ -10,6 +10,7 @@ let keyboard = new GameKeyboard();
 function init() {
     document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
+    document.getElementById("game_sound_button").classList.remove("hidden");
     world = new World(canvas, keyboard);
     world.startGame();
 }
@@ -33,6 +34,7 @@ function goHome() {
     document.getElementById("win_screen").classList.add("hidden");
     document.getElementById("how_to_play_screen").classList.add("hidden");
     document.getElementById("start_screen").classList.remove("hidden");
+    document.getElementById("game_sound_button").classList.add("hidden");
     world = null;
     renderStartScreen();
 }
@@ -72,23 +74,18 @@ function closeHowToPlay() {
 
 function toggleSound() {
     document.getElementById("sound_button").classList.toggle("muted");
+    document.getElementById("game_sound_button").classList.toggle("muted");
 }
 
 function registerButtons() {
-    document.getElementById("start_button")
-        .addEventListener("click", init);
-    document.getElementById("how_to_play_button")
-        .addEventListener("click", openHowToPlay);
-    document.getElementById("close_how_to_play_button")
-        .addEventListener("click", closeHowToPlay);
-    document.getElementById("sound_button")
-        .addEventListener("click", toggleSound);
-    document.querySelectorAll(".home_button")
-        .forEach(button => button.addEventListener("click", goHome));
-    document.querySelectorAll(".restart_button")
-        .forEach(button => button.addEventListener("click", restartGame));
-    document.getElementById("fullscreen_button")
-        .addEventListener("click", toggleFullscreen);
+    document.getElementById("start_button").addEventListener("click", init);
+    document.getElementById("how_to_play_button").addEventListener("click", openHowToPlay);
+    document.getElementById("close_how_to_play_button").addEventListener("click", closeHowToPlay);
+    document.getElementById("sound_button").addEventListener("click", toggleSound);
+    document.querySelectorAll(".home_button").forEach(button => button.addEventListener("click", goHome));
+    document.querySelectorAll(".restart_button").forEach(button => button.addEventListener("click", restartGame));
+    document.getElementById("fullscreen_button").addEventListener("click", toggleFullscreen);
+    document.getElementById("game_sound_button").addEventListener("click", toggleSound);
 }
 
 window.addEventListener("keydown", (e) => {
