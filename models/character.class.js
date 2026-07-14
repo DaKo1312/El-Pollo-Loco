@@ -82,6 +82,12 @@ export class Character extends MovableObject {
     collectCoin() {
         this.coins++;
         this.world.coinStatusBar.setPercentage(this.coins * 20);
+        if (this.coins < 5) return;
+        this.energy = 100;
+        this.coins = 0;
+        this.world.statusBar.setPercentage(100);
+        this.world.coinStatusBar.setPercentage(0);
+        this.world.showHealthFull();
     }
 
     collectFlask() {

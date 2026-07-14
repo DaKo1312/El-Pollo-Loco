@@ -22,6 +22,8 @@ export class World {
     endboss = null;
     gameEnded = false;
     hasWon = false;
+    healthFullUntil = 0;
+    healthFullStart = 0;
     // #endregion
 
     constructor(canvas, keyboard) {
@@ -179,6 +181,7 @@ export class World {
         this.addObjectToMap(this.level.flasks);
         this.addObjectToMap(this.level.enemies);
         this.addToMap(this.character);
+        this.drawHealthFull();
         this.addObjectToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
@@ -278,5 +281,25 @@ export class World {
     hitEndboss(enemy) {
         enemy.hit(20);
         this.endbossStatusBar.setPercentage(enemy.energy);
+    }
+
+    showHealthFull() {
+        this.healthFullStart = Date.now();
+        this.healthFullUntil = this.healthFullStart + 1000;
+    }
+
+    drawHealthFull() {
+        if (Date.now() > this.healthFullUntil) return;
+        const progress = (Date.now() - this.healthFullStart) / 2000;
+        const alpha = 1 - progress;
+        const x = this.character.x + this.character.width / 2;
+        const y = this.character.y + 140 - progress * 30;
+        this.ctx.save();
+        this.ctx.globalAlpha = alpha;
+        this.ctx.font = "20px Zabars";
+        this.ctx.fillStyle = "#4CAF50";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("FULL HEALTH", x, y);
+        this.ctx.restore();
     }
 }

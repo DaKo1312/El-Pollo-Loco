@@ -18,6 +18,14 @@ export function howToPlayTemplate() {
     return `
         <div class="how_to_play_content">
             <h2>HOW TO PLAY</h2>
+            <p class="how_to_play_text">
+                <strong>Welcome to El Pollo Loco!</strong><br>
+
+                Dive into Pepe's world and battle the crazed chickens on your way to the final boss.
+                Jump on enemies or throw bottles to defeat them.
+                Only bottles can defeat the boss.
+                Collect 5 coins to fully restore your health and conquer the level.
+            </p>
             <div class="controls">
                 <div class="control_row">
                     <span class="key">←</span>

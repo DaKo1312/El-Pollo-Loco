@@ -15,7 +15,15 @@ function init() {
 }
 
 function restartGame() {
-    location.reload();
+    IntervalHub.stopAllIntervals();
+    if (world) {
+        world.isRunning = false;
+        world = null;
+    }
+    document.getElementById("game_over_screen").classList.add("hidden");
+    document.getElementById("win_screen").classList.add("hidden");
+    document.getElementById("how_to_play_screen").classList.add("hidden");
+    init();
 }
 
 function goHome() {
