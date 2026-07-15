@@ -78,3 +78,20 @@ export function winScreenTemplate() {
         </div>
     `;
 }
+
+export function welcomeSoundTemplate() {
+    return `
+        <div class="how_to_play_content">
+            <h2>¡Vamos!</h2>
+            <p class="how_to_play_text">
+                <strong>Ready for a crazy adventure?</strong><br><br>
+                Grab your sombrero, collect your bottles and
+                get ready to take on the craziest chickens
+                you've ever seen.
+            </p>
+            <button id="welcome_sound_button" class="menu_button">
+                VAMOS!
+            </button>
+        </div>
+    `;
+}

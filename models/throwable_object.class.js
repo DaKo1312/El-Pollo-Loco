@@ -1,6 +1,7 @@
 import { ImageHub } from "../helper/image_helper.class.js";
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { MovableObject } from "./movables_object.class.js";
+import { SoundHub } from '../helper/sound_helper.class.js';
 
 export class ThrowableObject extends MovableObject {
     // #region throwableobject
@@ -47,6 +48,7 @@ export class ThrowableObject extends MovableObject {
         IntervalHub.startInterval(() => {
             if (!this.isSplashing && this.y >= this.groundY) {
                 this.isSplashing = true;
+                SoundHub.play(SoundHub.bottleBreak);
             }
         }, 1000 / 60);
     }

@@ -1,7 +1,7 @@
 import { World } from '../models/world.class.js';
 import { GameKeyboard } from '../models/keyboard.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
-import { startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
+import { welcomeSoundTemplate, startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
 import { SoundHub } from '../helper/sound_helper.class.js';
 
 let canvas;
@@ -11,7 +11,7 @@ let keyboard = new GameKeyboard();
 function init() {
     document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
-    document.getElementById("game_sound_button").classList.remove("hidden");
+    document.getElementById("game_sound_container").classList.remove("hidden");
     SoundHub.play(SoundHub.backgroundMusic);
     world = new World(canvas, keyboard);
     world.startGame();
@@ -43,11 +43,13 @@ function goHome() {
 }
 
 function renderTemplates() {
+    document.getElementById("welcome_sound_screen").innerHTML = welcomeSoundTemplate();
     document.getElementById("start_screen").innerHTML = startScreenTemplate();
     document.getElementById("how_to_play_screen").innerHTML = howToPlayTemplate();
     document.getElementById("game_over_screen").innerHTML = gameOverTemplate();
     document.getElementById("win_screen").innerHTML = winScreenTemplate();
-    document.getElementById("start_screen").className = "overlay";
+    document.getElementById("welcome_sound_screen").className = "overlay";
+    document.getElementById("start_screen").className = "overlay hidden";
     document.getElementById("how_to_play_screen").className = "overlay hidden";
     document.getElementById("game_over_screen").className = "overlay hidden";
     document.getElementById("win_screen").className = "overlay hidden";
@@ -83,6 +85,7 @@ function toggleSound() {
 }
 
 function registerButtons() {
+    document.getElementById("welcome_sound_button").addEventListener("click", closeWelcomeSound);
     document.getElementById("start_button").addEventListener("click", init);
     document.getElementById("how_to_play_button").addEventListener("click", openHowToPlay);
     document.getElementById("close_how_to_play_button").addEventListener("click", closeHowToPlay);
@@ -90,6 +93,7 @@ function registerButtons() {
     document.querySelectorAll(".home_button").forEach(button => button.addEventListener("click", goHome));
     document.querySelectorAll(".restart_button").forEach(button => button.addEventListener("click", restartGame));
     document.getElementById("fullscreen_button").addEventListener("click", toggleFullscreen);
+    document.getElementById("music_volume").addEventListener("input", updateMusicVolume);
     document.getElementById("game_sound_button").addEventListener("click", toggleSound);
 }
 
@@ -138,4 +142,14 @@ function toggleFullscreen() {
             document.webkitExitFullscreen();
         }
     }
+}
+
+function closeWelcomeSound() {
+    document.getElementById("welcome_sound_screen").classList.add("hidden");
+    document.getElementById("start_screen").classList.remove("hidden");
+    SoundHub.play(SoundHub.backgroundMusic);
+}
+
+function updateMusicVolume(event) {
+    SoundHub.setMusicVolume(event.target.value / 100);
 }

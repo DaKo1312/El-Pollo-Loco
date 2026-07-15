@@ -33,7 +33,6 @@ export class SoundHub {
 
     static play(sound) {
         if (SoundHub.muted) return;
-        sound.loop = sound === SoundHub.backgroundMusic;
         if (!sound.paused) return;
         SoundError.playOne(sound);
     }
@@ -61,5 +60,14 @@ export class SoundHub {
         sound.pause();
         sound.currentTime = 0;
         SoundError.playOne(sound);
+    }
+
+    static setMusicVolume(volume) {
+        SoundHub.backgroundMusic.volume = volume;
+    }
+
+    static {
+        SoundHub.backgroundMusic.loop = true;
+        SoundHub.characterSnoring.loop = true;
     }
 }

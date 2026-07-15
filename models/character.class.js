@@ -20,6 +20,7 @@ export class Character extends MovableObject {
     offset = {top: 110, right: 20, bottom: 10, left: 25};
     coins = 0;
     flasks = 0;
+    snoringPlayed = false;
     // #endregion
 
     world;
@@ -39,6 +40,7 @@ export class Character extends MovableObject {
     
     start() {
         this.animate();
+        this.animateImages();
     }
     
     animate() {
@@ -58,28 +60,51 @@ export class Character extends MovableObject {
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
-    IntervalHub.startInterval(() => {
-        let idleTime = Date.now() - this.lastAction;
-
-        if (this.isDead()) {
-            if (!this.deathSoundPlayed) {
-                SoundHub.play(SoundHub.characterDead);
-                this.deathSoundPlayed = true;
+    animateImages() {
+        IntervalHub.startInterval(() => {
+            let idleTime = Date.now() - this.lastAction;
+            const isWalking = (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround();
+            if (!isWalking && this.runSoundPlaying) {
+                SoundHub.pause(SoundHub.characterRun);
+                this.runSoundPlaying = false;
             }
-            this.playAnimation(this.imagesDead);
-        } else if (this.isHurt()) {
-            this.playAnimation(this.imagesHurt);
-        } else if (this.isAboveGround()) {
-            this.playAnimation(this.imagesJump);
-        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.imagesWalk);
-        } else if (idleTime >= 8000) {
-            this.playAnimation(this.imagesIdleLong);
-        } else if (idleTime >= 3000) {
-            this.playAnimation(this.imagesIdle);
-        }
-    }, 150);
+            if (this.isDead()) {
+                if (!this.deathSoundPlayed) {
+                    SoundHub.play(SoundHub.characterDead);
+                    this.deathSoundPlayed = true;
+                }
+                SoundHub.pause(SoundHub.characterSnoring);
+                this.snoringPlayed = false;
+                this.playAnimation(this.imagesDead);
+            } else if (this.isHurt()) {
+                SoundHub.pause(SoundHub.characterSnoring);
+                this.snoringPlayed = false;
+                this.playAnimation(this.imagesHurt);
+            } else if (this.isAboveGround()) {
+                SoundHub.pause(SoundHub.characterSnoring);
+                this.snoringPlayed = false;
+                this.playAnimation(this.imagesJump);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                if (!this.runSoundPlaying) {
+                    SoundHub.play(SoundHub.characterRun);
+                    this.runSoundPlaying = true;
+                } 
+                this.playAnimation(this.imagesWalk);
+            } else if (idleTime >= 8000) {
+                if (!this.snoringPlayed) {
+                    SoundHub.characterSnoring.loop = true;
+                    SoundHub.play(SoundHub.characterSnoring);
+                    this.snoringPlayed = true;
+                }
+                this.playAnimation(this.imagesIdleLong);
+            } else if (idleTime >= 3000) {
+                SoundHub.pause(SoundHub.characterSnoring);
+                this.snoringPlayed = false;
+                this.playAnimation(this.imagesIdle);
+            }
+        }, 150);
     }
 
     jump() {
@@ -89,6 +114,7 @@ export class Character extends MovableObject {
 
     collectCoin() {
         this.coins++;
+        SoundHub.play(SoundHub.collectCoin);
         this.world.coinStatusBar.setPercentage(this.coins * 20);
         if (this.coins < 5) return;
         this.energy = 100;
@@ -100,6 +126,7 @@ export class Character extends MovableObject {
 
     collectFlask() {
         this.flasks++;
+        SoundHub.play(SoundHub.collectBottle);
         this.world.flaskStatusBar.setPercentage(this.flasks * 20);
     }
 
@@ -110,7 +137,7 @@ export class Character extends MovableObject {
         return (
             this.speedY < 0 &&
             previousBottom <= enemyTop &&
-            currentBottom >= enemyTop - 15
+            currentBottom >= enemyTop - 30
         );
     }
 

@@ -14,12 +14,23 @@
 
         <section class="game_container">
             <canvas id="canvas" width="720" height="480"></canvas>
+            <div id="welcome_sound_screen"></div>
             <div id="start_screen"></div>
             <div id="how_to_play_screen"></div>
             <div id="game_over_screen"></div>
             <div id="win_screen"></div>
             <button id="fullscreen_button"></button>
-            <button id="game_sound_button" class="hidden"></button>
+            <div id="game_sound_container" class="hidden">
+                <button id="game_sound_button"></button>
+                <div id="music_slider_container">
+                    <input
+                        id="music_volume"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="20">
+                </div>
+            </div>
         </section>
 
     </div>

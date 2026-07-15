@@ -5,6 +5,7 @@ import { StatusBar } from "./status_bar.class.js";
 import { ImageHub } from "../helper/image_helper.class.js";
 import { ThrowableObject } from "./throwable_object.class.js";
 import { Endboss } from "./endboss.class.js";
+import { SoundHub } from '../helper/sound_helper.class.js';
 
 export class World {
     // #region world properties
@@ -131,6 +132,7 @@ export class World {
             return;
         }
         flask.isSplashing = true;
+        SoundHub.play(SoundHub.bottleBreak);
         this.damageEnemy(enemy);
     }
 
@@ -148,11 +150,10 @@ export class World {
 
     checkBossActivation() {
         IntervalHub.startInterval(() => {
-            if (!this.endboss) {
-                return;
-            }
+            if (!this.endboss) return;
             if (!this.endboss.isActivated && this.character.x >= 6450) {
                 this.endboss.activate();
+                SoundHub.play(SoundHub.bossApproach);
                 this.showBossStatusBar = true;
             }
         }, 100);
@@ -160,13 +161,12 @@ export class World {
 
     checkWin() {
         IntervalHub.startInterval(() => {
-            if (this.hasWon) {
-                return;
-            }
-            if (!this.endboss.isDead) {
-                return;
-            }
+            if (this.hasWon) return;
+            if (!this.endboss.isDead) return;
+
             this.hasWon = true;
+            SoundHub.pause(SoundHub.backgroundMusic);
+            SoundHub.play(SoundHub.winSound);
             document.getElementById("win_screen").classList.remove("hidden");
         }, 100);
     }
@@ -234,6 +234,8 @@ export class World {
 
     gameOver() {
         this.gameEnded = true;
+        SoundHub.pause(SoundHub.backgroundMusic);
+        SoundHub.play(SoundHub.gameOverSound);
         setTimeout(() => {
             IntervalHub.stopAllIntervals();
             document

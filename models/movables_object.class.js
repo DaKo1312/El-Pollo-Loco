@@ -24,6 +24,10 @@ export class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
+            if (this.y > this.groundY) {
+                this.y = this.groundY;
+                this.speedY = 0;
+            }
         }, 1000 / 25);
     }
 
