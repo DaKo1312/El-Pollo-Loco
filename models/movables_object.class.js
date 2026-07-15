@@ -1,6 +1,7 @@
 import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { DrawableObject } from './drawable_object.class.js';
+import { SoundHub } from '../helper/sound_helper.class.js';
 
 export class MovableObject extends DrawableObject {
     // #region movableObjects properties
@@ -46,6 +47,7 @@ export class MovableObject extends DrawableObject {
             this.currentImage = 0;
             this.lastHit = Date.now();
             this.world.statusBar.setPercentage(this.energy);
+            SoundHub.play(SoundHub.characterDamage);
         }
     }
 

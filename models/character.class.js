@@ -1,6 +1,7 @@
 import { MovableObject } from './movables_object.class.js';
 import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
+import { SoundHub } from '../helper/sound_helper.class.js';
 
 export class Character extends MovableObject {
     // #region character properties
@@ -53,18 +54,23 @@ export class Character extends MovableObject {
                 this.lastAction = Date.now();
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.speedY = 25;
+                this.jump();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
     IntervalHub.startInterval(() => {
         let idleTime = Date.now() - this.lastAction;
-        if (this.isDead()) { 
+
+        if (this.isDead()) {
+            if (!this.deathSoundPlayed) {
+                SoundHub.play(SoundHub.characterDead);
+                this.deathSoundPlayed = true;
+            }
             this.playAnimation(this.imagesDead);
         } else if (this.isHurt()) {
             this.playAnimation(this.imagesHurt);
-        }   else if (this.isAboveGround()) {
+        } else if (this.isAboveGround()) {
             this.playAnimation(this.imagesJump);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.imagesWalk);
@@ -77,6 +83,8 @@ export class Character extends MovableObject {
     }
 
     jump() {
+        this.speedY = 25;
+        SoundHub.play(SoundHub.characterJump);
     }
 
     collectCoin() {

@@ -2,6 +2,7 @@ import { World } from '../models/world.class.js';
 import { GameKeyboard } from '../models/keyboard.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
+import { SoundHub } from '../helper/sound_helper.class.js';
 
 let canvas;
 let world;
@@ -11,6 +12,7 @@ function init() {
     document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
     document.getElementById("game_sound_button").classList.remove("hidden");
+    SoundHub.play(SoundHub.backgroundMusic);
     world = new World(canvas, keyboard);
     world.startGame();
 }
@@ -24,6 +26,7 @@ function restartGame() {
     document.getElementById("game_over_screen").classList.add("hidden");
     document.getElementById("win_screen").classList.add("hidden");
     document.getElementById("how_to_play_screen").classList.add("hidden");
+    SoundHub.restart(SoundHub.backgroundMusic);
     init();
 }
 
@@ -54,6 +57,7 @@ window.addEventListener("load", () => {
     renderTemplates();
     renderStartScreen();
     registerButtons();
+    SoundHub.play(SoundHub.backgroundMusic);
 });
 
 function renderStartScreen() {
@@ -75,6 +79,7 @@ function closeHowToPlay() {
 function toggleSound() {
     document.getElementById("sound_button").classList.toggle("muted");
     document.getElementById("game_sound_button").classList.toggle("muted");
+    SoundHub.toggleMute();
 }
 
 function registerButtons() {

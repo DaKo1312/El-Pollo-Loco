@@ -1,49 +1,65 @@
-class SoundHub {
-    // Audiodateien für piano, guitar, drums
-    static piano = new Audio('./assets/sounds/piano.mp3');
-    static guitar = new Audio('./assets/sounds/guitar.mp3');
-    static drums = new Audio('./assets/sounds/drums.mp3');
+import { SoundError } from '../models/soundError.class.js';
 
-    // Array, das alle definierten Audio-Dateien enthält
-    static allSounds = [SoundHub.piano, SoundHub.guitar, SoundHub.drums];
+export class SoundHub {
+    // #region sound properties
+    static muted = false;
+    static backgroundMusic = new Audio('./assets/audio/background/2024-02-19_-_Mexican_Cowboys_-_www.FesliyanStudios.com.mp3');
+    static characterJump = new Audio('./assets/audio/character/characterJump.wav');
+    static characterRun = new Audio('./assets/audio/character/characterRun.mp3');
+    static characterDamage = new Audio('./assets/audio/character/characterDamage.mp3');
+    static characterDead = new Audio('./assets/audio/character/characterDead.wav');
+    static characterSnoring = new Audio('./assets/audio/character/characterSnoring.mp3');
+    static chickenDead = new Audio('./assets/audio/chicken/chickenDead.mp3');
+    static chickenDead2 = new Audio('./assets/audio/chicken/chickenDead2.mp3');
+    static collectCoin = new Audio('./assets/audio/collectibles/collectSound.wav');
+    static collectBottle = new Audio('./assets/audio/collectibles/bottleCollectSound.wav');
+    static bossApproach = new Audio('./assets/audio/endboss/endbossApproach.wav');
+    static bottleBreak = new Audio('./assets/audio/throwable/bottleBreak.mp3');
+    static allSounds = [
+        SoundHub.backgroundMusic,
+        SoundHub.characterJump,
+        SoundHub.characterRun,
+        SoundHub.characterDamage,
+        SoundHub.characterDead,
+        SoundHub.characterSnoring,
+        SoundHub.chickenDead,
+        SoundHub.chickenDead2,
+        SoundHub.collectCoin,
+        SoundHub.collectBottle,
+        SoundHub.bossApproach,
+        SoundHub.bottleBreak
+    ];
+    // #endregion
 
-
-    // Spielt eine einzelne Audiodatei ab
-    static playOne(sound, instrumentId) {  // instrumentId nur wichtig für die Visualisierung
-        sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
-        sound.currentTime = 0;  // Startet ab einer bestimmten stelle (0=Anfang/ 5 = 5 sec.)
-        sound.play();  // Spielt das übergebene Sound-Objekt ab
-        const instrumentImg = document.getElementById(instrumentId);  // nur wichtig für die Visualisierung
-        instrumentImg.classList.add('active');  // nur wichtig für die Visualisierung
+    static play(sound) {
+        if (SoundHub.muted) return;
+        sound.loop = sound === SoundHub.backgroundMusic;
+        if (!sound.paused) return;
+        SoundError.playOne(sound);
     }
 
+    static pause(sound) {
+        SoundError.pauseOne(sound);
+    }
 
-    // Pausiert das Abspielen aller Audiodateien
     static pauseAll() {
+        SoundHub.allSounds.forEach(sound => SoundError.pauseOne(sound));
+    }
+
+    static setVolume(volume) {
+        SoundHub.allSounds.forEach(sound => sound.volume = volume);
+    }
+
+    static toggleMute() {
+        SoundHub.muted = !SoundHub.muted;
         SoundHub.allSounds.forEach(sound => {
-            sound.pause();  // Pausiert jedes Audio in der Liste
+            sound.muted = SoundHub.muted;
         });
-        document.getElementById('volume').value = 0.2;  // Setzt den Sound-Slider wieder auf 0.2
-        const instrumentImages = document.querySelectorAll('.sound_img'); // nur wichtig für die Visualisierung
-        instrumentImages.forEach(img => img.classList.remove('active')); // nur wichtig für die Visualisierung
     }
 
-
-    // Pausiert das Abspielen einer einzelnen Audiodatei
-    static pauseOne(sound, instrumentId) {
-        sound.pause();  // Pausiert das übergebene Audio
-        const instrumentImg = document.getElementById(instrumentId); // nur wichtig für die Visualisierung
-        instrumentImg.classList.remove('active'); // nur wichtig für die Visualisierung
-    }
-
-
-    // ##########################################################################################################################
-    // ################################################  Sound Slider - BONUS !  ################################################
-    // Setzt die Lautstärke für alle Audiodateien
-    static objSetVolume(sounds) {  // sounds ist das array: allSounds welches hier als Parameter ankommt
-        let volumeValue = document.getElementById('volume').value;  // Holt den aktuellen Lautstärkewert aus dem Inputfeld
-        sounds.forEach(sound => {
-            sound.volume = volumeValue;  // Setzt die Lautstärke für jedes Audio wie im Slider angegeben
-        });
+    static restart(sound) {
+        sound.pause();
+        sound.currentTime = 0;
+        SoundError.playOne(sound);
     }
 }
