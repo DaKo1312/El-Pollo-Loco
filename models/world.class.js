@@ -166,9 +166,10 @@ export class World {
             this.hasWon = true;
             SoundHub.pause(SoundHub.backgroundMusic);
             SoundHub.play(SoundHub.winSound);
+            document.getElementById("mobile_controls").classList.add("hidden");
+            document.getElementById("win_screen").classList.remove("hidden");
             setTimeout(() => {
                 IntervalHub.stopAllIntervals();
-                document.getElementById("win_screen").classList.remove("hidden");
             }, 2000);
         }, 100);
     }
@@ -240,9 +241,8 @@ export class World {
         SoundHub.play(SoundHub.gameOverSound);
         setTimeout(() => {
             IntervalHub.stopAllIntervals();
-            document
-                .getElementById("game_over_screen")
-                .classList.remove("hidden");
+            document.getElementById("mobile_controls").classList.add("hidden");
+            document.getElementById("game_over_screen").classList.remove("hidden");
         }, 2000);
     }
 

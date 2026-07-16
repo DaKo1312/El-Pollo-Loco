@@ -11,7 +11,6 @@
 <body>
     <div id="fullscreen">
         <h1>El Pollo Loco</h1>
-
         <section class="game_container">
             <canvas id="canvas" width="720" height="480"></canvas>
             <div id="welcome_sound_screen"></div>
@@ -31,8 +30,21 @@
                         value="20">
                 </div>
             </div>
+            <div id="mobile_controls" class="hidden">
+                <div class="mobile_left">
+                    <button id="mobile_left">Left</button>
+                    <button id="mobile_right">Right</button>
+                </div>
+                <div class="mobile_right">
+                    <button id="mobile_jump">Jump</button>
+                    <button id="mobile_throw">Throw</button>
+                </div>
+            </div>
         </section>
-
+    </div>
+    <div id="rotate_device">
+        <h2>Please rotate your device</h2>
+        <p>Turn your phone to landscape to play.</p>
     </div>
 </body>
 </html>

@@ -12,6 +12,7 @@ function init() {
     document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
     document.getElementById("game_sound_container").classList.remove("hidden");
+    document.getElementById("mobile_controls").classList.add("active");
     SoundHub.play(SoundHub.backgroundMusic);
     world = new World(canvas, keyboard);
     world.startGame();
@@ -38,6 +39,7 @@ function goHome() {
     document.getElementById("how_to_play_screen").classList.add("hidden");
     document.getElementById("start_screen").classList.remove("hidden");
     document.getElementById("game_sound_container").classList.add("hidden");
+    document.getElementById("mobile_controls").classList.add("hidden");
     world = null;
     renderStartScreen();
 }
@@ -59,6 +61,7 @@ window.addEventListener("load", () => {
     renderTemplates();
     renderStartScreen();
     registerButtons();
+    registerMobileControls();
     const muted = localStorage.getItem("muted") === "true";
     if (muted) {
         document.getElementById("sound_button").classList.add("muted");
@@ -133,6 +136,33 @@ window.addEventListener("keyup", (e) => {
         keyboard.D = false;
     }
 });
+
+function registerMobileControls() {
+    registerTouchButton("mobile_left", "LEFT");
+    registerTouchButton("mobile_right", "RIGHT");
+    registerTouchButton("mobile_jump", "SPACE");
+    registerTouchButton("mobile_throw", "D");
+}
+
+function registerTouchButton(id, key) {
+    const button = document.getElementById(id);
+
+    button.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        button.classList.add("pressed");
+        keyboard[key] = true;
+    });
+
+    button.addEventListener("touchend", () => {
+        button.classList.remove("pressed");
+        keyboard[key] = false;
+    });
+
+    button.addEventListener("touchcancel", () => {
+        button.classList.remove("pressed");
+        keyboard[key] = false;
+    });
+}
 
 function toggleFullscreen() {
     let fullscreen = document.getElementById("fullscreen");
