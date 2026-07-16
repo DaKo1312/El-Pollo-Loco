@@ -163,11 +163,13 @@ export class World {
         IntervalHub.startInterval(() => {
             if (this.hasWon) return;
             if (!this.endboss.isDead) return;
-
             this.hasWon = true;
             SoundHub.pause(SoundHub.backgroundMusic);
             SoundHub.play(SoundHub.winSound);
-            document.getElementById("win_screen").classList.remove("hidden");
+            setTimeout(() => {
+                IntervalHub.stopAllIntervals();
+                document.getElementById("win_screen").classList.remove("hidden");
+            }, 2000);
         }, 100);
     }
 

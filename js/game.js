@@ -37,7 +37,7 @@ function goHome() {
     document.getElementById("win_screen").classList.add("hidden");
     document.getElementById("how_to_play_screen").classList.add("hidden");
     document.getElementById("start_screen").classList.remove("hidden");
-    document.getElementById("game_sound_button").classList.add("hidden");
+    document.getElementById("game_sound_container").classList.add("hidden");
     world = null;
     renderStartScreen();
 }

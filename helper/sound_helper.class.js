@@ -15,6 +15,9 @@ export class SoundHub {
     static collectBottle = new Audio('./assets/audio/collectibles/bottleCollectSound.wav');
     static bossApproach = new Audio('./assets/audio/endboss/endbossApproach.wav');
     static bottleBreak = new Audio('./assets/audio/throwable/bottleBreak.mp3');
+    static gameOverSound = new Audio("./assets/audio/gameover/audley_fergine-game-over-classic-206486.mp3");
+    static fullHealth = new Audio("./assets/audio/fullhealth/freesound_community-health-pickup-6860.mp3");
+    static winSound = new Audio("./assets/audio/winscreen/grumpynora-con-carne-10-sec-edit-565758.mp3");
     static allSounds = [
         SoundHub.backgroundMusic,
         SoundHub.characterJump,
@@ -27,7 +30,10 @@ export class SoundHub {
         SoundHub.collectCoin,
         SoundHub.collectBottle,
         SoundHub.bossApproach,
-        SoundHub.bottleBreak
+        SoundHub.bottleBreak,
+        SoundHub.winSound,
+        SoundHub.fullHealth,
+        SoundHub.gameOverSound
     ];
     // #endregion
 
@@ -69,5 +75,15 @@ export class SoundHub {
     static {
         SoundHub.backgroundMusic.loop = true;
         SoundHub.characterSnoring.loop = true;
+        SoundHub.backgroundMusic.volume = 0.2;
+        SoundHub.characterRun.volume = 0.2;
+        SoundHub.characterJump.volume = 0.2;
+    }
+
+    static play(sound) {
+        if (!sound) return;
+        if (SoundHub.muted) return;
+        if (!sound.paused) return;
+        SoundError.playOne(sound);
     }
 }

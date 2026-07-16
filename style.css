@@ -322,9 +322,12 @@ canvas {
     top: 55px;
     right: 15px;
     z-index: 300;
-    display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#game_sound_container:not(.hidden) {
+    display: flex;
 }
 
 #music_slider_container {
