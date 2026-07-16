@@ -141,7 +141,7 @@ export function winScreenTemplate() {
 export function welcomeSoundTemplate() {
     return `
         <div class="how_to_play_content">
-            <h2>Â¡Vamos!</h2>
+            <h2>¡Vamos!</h2>
             <p class="how_to_play_text">
                 <strong>Ready for a crazy adventure?</strong><br><br>
                 Grab your sombrero, collect your bottles and

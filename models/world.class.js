@@ -60,7 +60,7 @@ export class World {
      *
      * @type {Level}
      */
-    level = createLevel1();
+    level = new createLevel1();
 
     /**
      * Horizontal camera offset.

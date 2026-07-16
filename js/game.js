@@ -58,7 +58,9 @@ function init() {
     document.getElementById("start_screen").classList.add("hidden");
     canvas = document.getElementById("canvas");
     document.getElementById("game_sound_container").classList.remove("hidden");
-    document.getElementById("mobile_controls").classList.add("active");
+    if (window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches) {
+        document.getElementById("mobile_controls").classList.add("active");
+    }
     SoundHub.play(SoundHub.backgroundMusic);
     world = new World(canvas, keyboard);
     world.startGame();

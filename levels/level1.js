@@ -1,76 +1,125 @@
-﻿/**
- * Data container of a level.
+﻿import { Chicken } from "../models/chicken.class.js";
+import { SmallChicken } from "../models/small_chicken.class.js";
+import { BackgroundObject } from "../models/background_object.class.js";
+import { ImageHub } from "../helper/image_helper.class.js";
+import { Level } from "../models/level.class.js";
+import { Cloud } from "../models/cloud.class.js";
+import { Endboss } from "../models/endboss.class.js";
+import { Coin } from "../models/coins.class.js";
+import { Flask } from "../models/flask.class.js";
+
+/**
+ * Factory for creating the first game level.
  *
- * Holds every object a level consists of and the position of its right
- * boundary. The class has no logic of its own: instances are assembled by the
- * level factory and read by the world, which draws the objects and checks
- * them for collisions.
+ * Creates and returns a fully initialized {@link Level}
+ * containing all enemies, clouds, background objects,
+ * coins and collectible bottles.
  *
- * @class
- *
- * @see createLevel1
+ * @module level1
  */
-export class Level {
-    /**
-     * All enemies of the level, including the endboss.
-     *
-     * @type {Array<Enemy|Endboss>}
-     */
-    enemies;
 
-    /**
-     * The decorative clouds of the level.
-     *
-     * @type {Cloud[]}
-     */
-    clouds;
+/**
+ * Creates and returns the first level of the game.
+ *
+ * The level contains all enemies, clouds, background objects,
+ * coins and collectible bottles.
+ *
+ * @returns {Level} The fully initialized first level.
+ */
+export function createLevel1() {
+    return new Level(
+        createEnemies(),
+        createClouds(),
+        createBackground(),
+        createCoins(),
+        createFlasks()
+    );
+}
 
-    /**
-     * The parallax background tiles, in drawing order (back to front).
-     *
-     * @type {BackgroundObject[]}
-     */
-    backgroundObjects;
+/**
+ * Creates all enemies of the level.
+ *
+ * The level contains ten normal chickens,
+ * ten small chickens and one endboss.
+ *
+ * @returns {(Chicken|SmallChicken|Endboss)[]} All enemies.
+ */
+function createEnemies() {
+    let enemies = [];
+    for (let i = 0; i < 10; i++) enemies.push(new Chicken());
+    for (let i = 0; i < 10; i++) enemies.push(new SmallChicken());
+    enemies.push(new Endboss());
+    return enemies;
+}
 
-    /**
-     * The collectable coins of the level.
-     *
-     * @type {Coin[]}
-     */
-    coins;
+/**
+ * Creates all decorative clouds.
+ *
+ * Clouds are distributed horizontally across the level
+ * with a small random vertical offset.
+ *
+ * @returns {Cloud[]} All clouds.
+ */
+function createClouds() {
+    let clouds = [];
+    let currentX = 0;
 
-    /**
-     * Right boundary of the level in pixels.
-     *
-     * Equals nine background segments of 720 pixels each and limits how far
-     * the character may walk to the right.
-     *
-     * @type {number}
-     */
-    level_end_x = 720*9;
-
-    /**
-     * Creates a level from its objects.
-     *
-     * The arrays are stored by reference, not copied: the world mutates them
-     * directly, e.g. when removing collected items.
-     *
-     * @param {Array<Enemy|Endboss>} enemies - The enemies of the level.
-     * @param {Cloud[]} clouds - The clouds of the level.
-     * @param {BackgroundObject[]} backgroundObjects - The background tiles, in drawing order.
-     * @param {Coin[]} coins - The coins of the level.
-     * @param {Flask[]} flasks - The collectable bottles of the level.
-     */
-    constructor(enemies, clouds, backgroundObjects, coins, flasks) {
-        this.enemies = enemies;
-        this.clouds = clouds;
-        this.backgroundObjects = backgroundObjects;
-        this.coins = coins;
-        /**
-         * The collectable bottles of the level.
-         *
-         * @type {Flask[]}
-         */
-        this.flasks = flasks;
+    for (let i = 0; i < 10; i++) {
+        let cloud = new Cloud();
+        cloud.x = currentX;
+        cloud.y = -35 + Math.random() * 20;
+        clouds.push(cloud);
+        currentX += cloud.width + 150;
     }
+
+    return clouds;
+}
+
+/**
+ * Creates all collectible coins.
+ *
+ * @returns {Coin[]} All coins.
+ */
+function createCoins() {
+    let coins = [];
+    for (let i = 0; i < 12; i++) coins.push(new Coin());
+    return coins;
+}
+
+/**
+ * Creates all collectible bottles.
+ *
+ * @returns {Flask[]} All bottles.
+ */
+function createFlasks() {
+    let flasks = [];
+    for (let i = 0; i < 15; i++) flasks.push(new Flask());
+    return flasks;
+}
+
+/**
+ * Creates the repeating parallax background.
+ *
+ * Every segment consists of the sky and three scrolling layers.
+ * The background starts one segment before the visible area
+ * to avoid empty space at the beginning of the level.
+ *
+ * @returns {BackgroundObject[]} All background objects.
+ */
+function createBackground() {
+    let background = [];
+
+    for (let i = -1; i < 10; i++) {
+        let x = i * 720;
+        let imageIndex = Math.abs(i) % 2;
+
+        background.push(
+            new BackgroundObject(ImageHub.BACKGROUND.air, x),
+            new BackgroundObject(ImageHub.BACKGROUND.thirdLayer[imageIndex], x),
+            new BackgroundObject(ImageHub.BACKGROUND.secondLayer[imageIndex], x),
+            new BackgroundObject(ImageHub.BACKGROUND.firstLayer[imageIndex], x)
+        );
+    }
+
+    return background;
 }
