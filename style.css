@@ -348,14 +348,14 @@ canvas {
 
 #music_volume {
     appearance: none;
-    -webkit-appearance: slider-vertical;
     writing-mode: vertical-lr;
-    direction: ltr;
+    direction: rtl;
     width: 18px;
     height: 120px;
     margin: 0;
     cursor: pointer;
     background: transparent;
+    transform: rotate(180deg);
 }
 
 #music_volume::-webkit-slider-runnable-track {

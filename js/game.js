@@ -59,6 +59,12 @@ window.addEventListener("load", () => {
     renderTemplates();
     renderStartScreen();
     registerButtons();
+    const muted = localStorage.getItem("muted") === "true";
+    if (muted) {
+        document.getElementById("sound_button").classList.add("muted");
+        document.getElementById("game_sound_button").classList.add("muted");
+        SoundHub.toggleMute();
+    }
     SoundHub.play(SoundHub.backgroundMusic);
 });
 
@@ -82,6 +88,7 @@ function toggleSound() {
     document.getElementById("sound_button").classList.toggle("muted");
     document.getElementById("game_sound_button").classList.toggle("muted");
     SoundHub.toggleMute();
+    localStorage.setItem("muted", SoundHub.muted);
 }
 
 function registerButtons() {
