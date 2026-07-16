@@ -1,3 +1,23 @@
+/**
+ * @file HTML templates of all overlay screens.
+ *
+ * Each function returns the markup of one overlay as a template string. The
+ * templates are injected into their container elements by `renderTemplates()`
+ * in the game bootstrap module, which afterwards binds the listeners to the
+ * ids and classes defined here. Changing an id or class in this file
+ * therefore requires updating the according listener registration.
+ */
+
+/**
+ * Markup of the start screen menu.
+ *
+ * Contains the three main menu buttons. The background of the start screen
+ * is not part of this template; it is drawn onto the canvas instead.
+ *
+ * Provided ids: `how_to_play_button`, `start_button`, `sound_button`.
+ *
+ * @returns {string} HTML markup of the start screen buttons.
+ */
 export function startScreenTemplate() {
     return `
         <div class="start_buttons">
@@ -14,6 +34,16 @@ export function startScreenTemplate() {
     `;
 }
 
+/**
+ * Markup of the "how to play" overlay.
+ *
+ * Explains the goal of the game and lists the keyboard controls
+ * (arrow keys, space, D).
+ *
+ * Provided id: `close_how_to_play_button`.
+ *
+ * @returns {string} HTML markup of the instructions overlay.
+ */
 export function howToPlayTemplate() {
     return `
         <div class="how_to_play_content">
@@ -50,6 +80,16 @@ export function howToPlayTemplate() {
     `;
 }
 
+/**
+ * Markup of the game over overlay.
+ *
+ * Shows the "you lost" image and the home and restart buttons.
+ *
+ * Provided classes: `home_button`, `restart_button` (shared with the win
+ * screen, therefore bound by class instead of id).
+ *
+ * @returns {string} HTML markup of the game over screen.
+ */
 export function gameOverTemplate() {
     return `
         <img src="assets/img/You won, you lost/You lost b.png">
@@ -64,6 +104,16 @@ export function gameOverTemplate() {
     `;
 }
 
+/**
+ * Markup of the win overlay.
+ *
+ * Shows the "you win" image and the home and restart buttons.
+ *
+ * Provided classes: `home_button`, `restart_button` (shared with the game
+ * over screen, therefore bound by class instead of id).
+ *
+ * @returns {string} HTML markup of the win screen.
+ */
 export function winScreenTemplate() {
     return `
         <img src="assets/img/You won, you lost/You Win A.png">
@@ -78,6 +128,16 @@ export function winScreenTemplate() {
     `;
 }
 
+/**
+ * Markup of the welcome overlay shown before the start screen.
+ *
+ * Its button provides the first user interaction of the page, which is what
+ * browsers require before audio playback is allowed.
+ *
+ * Provided id: `welcome_sound_button`.
+ *
+ * @returns {string} HTML markup of the welcome overlay.
+ */
 export function welcomeSoundTemplate() {
     return `
         <div class="how_to_play_content">

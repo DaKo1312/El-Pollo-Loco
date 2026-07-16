@@ -1,5 +1,54 @@
+/**
+ * @typedef {string[]} SpriteSet
+ * A list of image paths that form one animation sequence.
+ * The order of the entries equals the playback order of the frames.
+ */
+
+/**
+ * Central registry for every image asset used by the game.
+ *
+ * `ImageHub` is a pure lookup class: it is never instantiated and holds no
+ * state. All members are `static` and expose plain objects whose properties
+ * are arrays of image paths (see {@link SpriteSet}). Consumers such as
+ * characters, enemies, items and status bars read these arrays to preload
+ * and to play their animations.
+ *
+ * All paths are relative to the project root.
+ *
+ * @class
+ * @hideconstructor
+ *
+ * @example
+ * // Play the walk animation of the character
+ * this.playAnimation(ImageHub.PEPE.walk);
+ *
+ * @example
+ * // Preload every background layer
+ * const layers = [
+ *   ...ImageHub.BACKGROUND.firstLayer,
+ *   ...ImageHub.BACKGROUND.secondLayer,
+ *   ...ImageHub.BACKGROUND.thirdLayer
+ * ];
+ * this.loadImages(layers);
+ */
 export class ImageHub {
     // #region background
+    /**
+     * Parallax background layers plus the static air/sky image.
+     *
+     * Each layer array contains the tiles that are repeated horizontally
+     * along the level. `air` is a single path, not an array, because the sky
+     * is drawn only once as the rearmost layer.
+     *
+     * @static
+     * @type {{
+     *   firstLayer: SpriteSet,
+     *   secondLayer: SpriteSet,
+     *   thirdLayer: SpriteSet,
+     *   clouds: SpriteSet,
+     *   air: string
+     * }}
+     */
     static BACKGROUND = {
         firstLayer: [
             'assets/img/5_background/layers/1_first_layer/1.png',
@@ -20,11 +69,28 @@ export class ImageHub {
         ],
         air:
             'assets/img/5_background/layers/air.png'
-        
+
     }
     // #endregion
 
     // #region character PEPE
+    /**
+     * Animation sets of the playable character "Pepe".
+     *
+     * `idle` is the short loop shown while the character stands still.
+     * `idle_long` is the extended loop played after a longer period of
+     * inactivity (sleeping animation).
+     *
+     * @static
+     * @type {{
+     *   idle: SpriteSet,
+     *   idle_long: SpriteSet,
+     *   walk: SpriteSet,
+     *   jump: SpriteSet,
+     *   hurt: SpriteSet,
+     *   dead: SpriteSet
+     * }}
+     */
     static PEPE = {
         idle: [
             'assets/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -87,6 +153,14 @@ export class ImageHub {
     // #endregion
 
     // #region enemie big chicken
+    /**
+     * Animation sets of the normal sized chicken enemy.
+     *
+     * `dead` holds a single frame and is therefore displayed as a still image.
+     *
+     * @static
+     * @type {{ walk: SpriteSet, dead: SpriteSet }}
+     */
     static BIGCHICKEN = {
         walk: [
             'assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -100,6 +174,15 @@ export class ImageHub {
     // #endregion
 
     // #region enemie small chicken
+    /**
+     * Animation sets of the small chicken enemy.
+     *
+     * Structurally identical to {@link ImageHub.BIGCHICKEN}, but referencing
+     * the small chicken sprites.
+     *
+     * @static
+     * @type {{ walk: SpriteSet, dead: SpriteSet }}
+     */
     static SMALLCHICKEN = {
         walk: [
             'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -113,6 +196,21 @@ export class ImageHub {
     // #endregion
 
     // #region enemie endboss
+    /**
+     * Animation sets of the endboss chicken.
+     *
+     * `alert` is played once the character enters the boss trigger zone,
+     * `attack` while the boss charges towards the character.
+     *
+     * @static
+     * @type {{
+     *   walk: SpriteSet,
+     *   alert: SpriteSet,
+     *   attack: SpriteSet,
+     *   hurt: SpriteSet,
+     *   dead: SpriteSet
+     * }}
+     */
     static ENDBOSS = {
         walk: [
             'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -154,6 +252,15 @@ export class ImageHub {
     // #endregion
 
     // #region items coins
+    /**
+     * Sprites of the collectable coin.
+     *
+     * Currently a single frame; the array shape is kept so that additional
+     * spin frames can be added without changing the consumers.
+     *
+     * @static
+     * @type {{ coin: SpriteSet }}
+     */
     static COINS = {
         coin: [
             'assets/img/8_coin/coin_1.png',
@@ -162,6 +269,15 @@ export class ImageHub {
     // #endregion
 
     // #region items flask
+    /**
+     * Sprites of the salsa bottle in all of its states.
+     *
+     * `onGround` is the collectable item lying in the level, `rotate` the
+     * spin animation of the thrown bottle and `splash` the impact animation.
+     *
+     * @static
+     * @type {{ onGround: SpriteSet, rotate: SpriteSet, splash: SpriteSet }}
+     */
     static FLASK = {
         onGround: [
             'assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -185,6 +301,16 @@ export class ImageHub {
     // #endregion
 
     // #region statusbar character
+    /**
+     * Status bar sprites of the character HUD.
+     *
+     * Every array holds six frames representing the fill levels
+     * 0, 20, 40, 60, 80 and 100 percent, in that order. The frame index can
+     * therefore be derived from a percentage value.
+     *
+     * @static
+     * @type {{ health: SpriteSet, flask: SpriteSet, coin: SpriteSet }}
+     */
     static STATUSBAR = {
         health: [
             'assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
@@ -214,6 +340,14 @@ export class ImageHub {
     // #endregion
 
     // #region statusbar boss
+    /**
+     * Status bar sprites of the endboss health bar.
+     *
+     * Same six step scale as {@link ImageHub.STATUSBAR}: 0 to 100 percent.
+     *
+     * @static
+     * @type {{ health: SpriteSet }}
+     */
     static BOSSBAR = {
         health: [
             'assets/img/7_statusbars/2_statusbar_endboss/green/green0.png',
@@ -227,6 +361,12 @@ export class ImageHub {
     // #endregion
 
     // #region startscreen
+    /**
+     * Background image of the start screen.
+     *
+     * @static
+     * @type {{ start: SpriteSet }}
+     */
     static START = {
         start: [
             'assets/img/10_intro_outro_screens/start/startscreen_2.png'
@@ -235,6 +375,14 @@ export class ImageHub {
     // #endregion
 
     // #region flask rotation
+    /**
+     * Rotation animation of the thrown bottle.
+     *
+     * @static
+     * @type {{ flask: SpriteSet }}
+     * @see ImageHub.FLASK
+     * @deprecated Duplicate of `ImageHub.FLASK.rotate`. Prefer `FLASK.rotate`.
+     */
     static ROTATE = {
         flask: [
             'assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -246,6 +394,14 @@ export class ImageHub {
     // #endregion
 
     // #region flask splash
+    /**
+     * Splash animation of the bottle on impact.
+     *
+     * @static
+     * @type {{ flask: SpriteSet }}
+     * @see ImageHub.FLASK
+     * @deprecated Duplicate of `ImageHub.FLASK.splash`. Prefer `FLASK.splash`.
+     */
     static SPLASH = {
         flask: [
             'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -259,6 +415,12 @@ export class ImageHub {
     // #endregion
 
     // #region winscreen
+    /**
+     * Image shown when the player wins the game.
+     *
+     * @static
+     * @type {{ win: SpriteSet }}
+     */
     static WIN = {
         win: [
             'assets/img/You won, you lost/You Win A.png'
@@ -267,6 +429,12 @@ export class ImageHub {
     // #endregion
 
     // #region endscreen
+    /**
+     * Image shown when the player loses the game (game over screen).
+     *
+     * @static
+     * @type {{ end: SpriteSet }}
+     */
     static END = {
         end: [
             'assets/img/10_intro_outro_screens/game_over/oh no you lost!.png'
