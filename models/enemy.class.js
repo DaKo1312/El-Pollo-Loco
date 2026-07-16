@@ -1,4 +1,4 @@
-import { MovableObject } from "./movables_object.class.js";
+﻿import { MovableObject } from "./movables_object.class.js";
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { SoundHub } from '../helper/sound_helper.class.js';
 

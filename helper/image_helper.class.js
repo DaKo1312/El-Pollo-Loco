@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @typedef {string[]} SpriteSet
  * A list of image paths that form one animation sequence.
  * The order of the entries equals the playback order of the frames.

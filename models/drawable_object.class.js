@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Base class of every object that is drawn onto the canvas.
  *
  * Provides image loading, the image cache used by the animations and the

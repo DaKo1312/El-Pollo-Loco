@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Central registry for all running `setInterval` timers of the game.
  *
  * `IntervalHub` is a pure utility class: it is never instantiated and only

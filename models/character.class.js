@@ -1,4 +1,4 @@
-import { MovableObject } from './movables_object.class.js';
+﻿import { MovableObject } from './movables_object.class.js';
 import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { SoundHub } from '../helper/sound_helper.class.js';
@@ -17,7 +17,7 @@ import { SoundHub } from '../helper/sound_helper.class.js';
  * The state is not stored explicitly: it is derived on every tick from
  * energy, vertical speed, keyboard input and the idle time since the last
  * action. The order of the checks in `animateImages` defines the priority
- * (dead → hurt → jumping → walking → long idle → idle).
+ * (dead â†’ hurt â†’ jumping â†’ walking â†’ long idle â†’ idle).
  *
  * @class
  * @extends MovableObject
@@ -156,7 +156,7 @@ export class Character extends MovableObject {
      * Assigned by the world after construction and used to read the keyboard
      * state, to move the camera and to update the status bars.
      *
-     * @type {import('./world.class.js').World}
+     * @type {World}
      */
     world;
 

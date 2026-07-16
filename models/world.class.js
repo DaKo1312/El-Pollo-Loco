@@ -1,4 +1,4 @@
-import { Character } from './character.class.js';
+﻿import { Character } from './character.class.js';
 import { createLevel1 } from "../levels/level1.js";
 import { IntervalHub } from '../helper/interval_helper.class.js';
 import { StatusBar } from "./status_bar.class.js";
@@ -48,7 +48,7 @@ export class World {
     /**
      * Shared keyboard state, read for the throw input.
      *
-     * @type {import('./keyboard.class.js').GameKeyboard}
+     * @type {GameKeyboard}
      */
     keyboard;
 
@@ -58,7 +58,7 @@ export class World {
      * Created fresh per world, so enemies and items are randomised again on
      * every restart.
      *
-     * @type {import('./level.class.js').Level}
+     * @type {Level}
      */
     level = createLevel1();
 
@@ -164,7 +164,7 @@ export class World {
      * animated yet; that happens in {@link World#startGame}.
      *
      * @param {HTMLCanvasElement} canvas - The game canvas.
-     * @param {import('./keyboard.class.js').GameKeyboard} keyboard - The shared keyboard state.
+     * @param {GameKeyboard} keyboard - The shared keyboard state.
      */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -350,7 +350,7 @@ export class World {
      * its splash state, the breaking sound plays and the damage is applied.
      *
      * @param {ThrowableObject} flask - The bottle.
-     * @param {import('./enemy.class.js').Enemy|Endboss} enemy - The enemy that was hit.
+     * @param {Enemy|Endboss} enemy - The enemy that was hit.
      * @returns {void}
      */
     handleThrowableObjectHit(flask, enemy) {
@@ -368,7 +368,7 @@ export class World {
      * The endboss takes 20 damage per bottle and updates its status bar;
      * chickens die from a single hit.
      *
-     * @param {import('./enemy.class.js').Enemy|Endboss} enemy - The enemy to damage.
+     * @param {Enemy|Endboss} enemy - The enemy to damage.
      * @returns {void}
      */
     damageEnemy(enemy) {
@@ -463,7 +463,7 @@ export class World {
     /**
      * Draws a list of objects onto the canvas.
      *
-     * @param {import('./drawable_object.class.js').DrawableObject[]} objects - The objects to draw.
+     * @param {DrawableObject[]} objects - The objects to draw.
      * @returns {void}
      */
     addObjectToMap(objects) {
@@ -480,7 +480,7 @@ export class World {
      * afterwards, so the object keeps its real coordinates for the collision
      * checks.
      *
-     * @param {import('./drawable_object.class.js').DrawableObject} mo - The object to draw.
+     * @param {DrawableObject} mo - The object to draw.
      * @returns {void}
      */
     addToMap(mo) {
@@ -558,7 +558,7 @@ export class World {
      * from above and damage the character otherwise. Dead enemies are
      * harmless.
      *
-     * @param {import('./enemy.class.js').Enemy|Endboss} enemy - The enemy in contact.
+     * @param {Enemy|Endboss} enemy - The enemy in contact.
      * @returns {void}
      */
     handleEnemyCollision(enemy) {
@@ -608,7 +608,7 @@ export class World {
      *
      * @deprecated Unused duplicate. Kept for reference.
      * @param {ThrowableObject} flask - The bottle.
-     * @param {import('./enemy.class.js').Enemy|Endboss} enemy - The enemy that was hit.
+     * @param {Enemy|Endboss} enemy - The enemy that was hit.
      * @returns {void}
      */
     handleFlaskHit(flask, enemy) {

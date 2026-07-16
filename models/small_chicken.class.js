@@ -1,4 +1,4 @@
-import { Enemy } from "./enemy.class.js";
+﻿import { Enemy } from "./enemy.class.js";
 import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 

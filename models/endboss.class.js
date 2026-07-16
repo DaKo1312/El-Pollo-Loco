@@ -1,4 +1,4 @@
-import { MovableObject } from "./movables_object.class.js";
+﻿import { MovableObject } from "./movables_object.class.js";
 import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 
@@ -15,7 +15,7 @@ import { IntervalHub } from "../helper/interval_helper.class.js";
  * `isWalking`, `isAttacking`, `isHurt`, `isDead`) that are evaluated in a
  * fixed priority order by {@link Endboss#playCurrentAnimation}. Note that
  * `isHurt` and `isDead` are fields here and therefore shadow the inherited
- * methods of the same name — inside this class they must be read as
+ * methods of the same name â€” inside this class they must be read as
  * properties, never called.
  *
  * @class

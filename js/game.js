@@ -1,9 +1,9 @@
-/**
+﻿/**
  * @file Bootstrap and UI controller of the game.
  *
  * This module wires the DOM to the game logic. It renders the overlay
  * templates, registers all button, keyboard and touch listeners, controls
- * the screen flow (welcome → start → game → win/game over) and creates and
+ * the screen flow (welcome â†’ start â†’ game â†’ win/game over) and creates and
  * destroys the {@link World} instance. It is the only place that touches the
  * DOM directly; the game itself communicates through the shared
  * {@link GameKeyboard} instance.
@@ -353,7 +353,7 @@ function closeWelcomeSound() {
 /**
  * Applies the music volume slider value to the background music.
  *
- * Converts the slider range (0–100) to the `Audio` volume range (0–1).
+ * Converts the slider range (0â€“100) to the `Audio` volume range (0â€“1).
  *
  * @param {Event} event - Input event of the volume slider.
  * @returns {void}

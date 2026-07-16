@@ -1,4 +1,4 @@
-import { DrawableObject } from "./drawable_object.class.js";
+﻿import { DrawableObject } from "./drawable_object.class.js";
 
 /**
  * A status bar of the HUD.
@@ -6,7 +6,7 @@ import { DrawableObject } from "./drawable_object.class.js";
  * Generic bar used for health, coins and bottles alike, and for the endboss
  * health as well: the sprites, the position and the initial value are passed
  * in, so one class covers every bar of the game. Status bars are drawn in
- * screen space, not in world space — the camera offset is reset before they
+ * screen space, not in world space â€” the camera offset is reset before they
  * are rendered, which keeps them fixed on screen.
  *
  * The bar shows six steps (0, 20, 40, 60, 80, 100 percent). Values in between
@@ -72,7 +72,7 @@ export class StatusBar extends DrawableObject {
      * The sprite is taken from the image cache, so the bar updates without
      * any loading delay.
      *
-     * @param {number} percentage - New fill level in percent (0–100).
+     * @param {number} percentage - New fill level in percent (0â€“100).
      * @returns {void}
      */
     setPercentage(percentage) {
@@ -87,7 +87,7 @@ export class StatusBar extends DrawableObject {
      * Rounds down to the next of the six steps, so any value below 20 percent
      * shows the empty bar and only exactly 100 shows the full one.
      *
-     * @returns {number} Index into {@link StatusBar#images} (0–5).
+     * @returns {number} Index into {@link StatusBar#images} (0â€“5).
      */
     resolveImageIndex() {
         if (this.percentage == 100) {

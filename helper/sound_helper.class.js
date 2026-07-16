@@ -1,4 +1,4 @@
-import { SoundError } from '../models/soundError.class.js';
+﻿import { SoundError } from '../models/soundError.class.js';
 
 /**
  * Central registry and controller for every audio asset of the game.

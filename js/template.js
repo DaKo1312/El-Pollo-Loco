@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file HTML templates of all overlay screens.
  *
  * Each function returns the markup of one overlay as a template string. The
@@ -57,11 +57,11 @@ export function howToPlayTemplate() {
             </p>
             <div class="controls">
                 <div class="control_row">
-                    <span class="key">←</span>
+                    <span class="key">â†</span>
                     <span>Move Left</span>
                 </div>
                 <div class="control_row">
-                    <span class="key">→</span>
+                    <span class="key">â†’</span>
                     <span>Move Right</span>
                 </div>
                 <div class="control_row">
@@ -141,7 +141,7 @@ export function winScreenTemplate() {
 export function welcomeSoundTemplate() {
     return `
         <div class="how_to_play_content">
-            <h2>¡Vamos!</h2>
+            <h2>Â¡Vamos!</h2>
             <p class="how_to_play_text">
                 <strong>Ready for a crazy adventure?</strong><br><br>
                 Grab your sombrero, collect your bottles and

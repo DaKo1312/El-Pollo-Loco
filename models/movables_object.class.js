@@ -1,4 +1,4 @@
-import { ImageHub } from '../helper/image_helper.class.js';
+﻿import { ImageHub } from '../helper/image_helper.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { DrawableObject } from './drawable_object.class.js';
 import { SoundHub } from '../helper/sound_helper.class.js';

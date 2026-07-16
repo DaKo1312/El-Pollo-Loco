@@ -1,4 +1,4 @@
-import { MovableObject } from "./movables_object.class.js";
+﻿import { MovableObject } from "./movables_object.class.js";
 import { ImageHub } from "../helper/image_helper.class.js";
 
 /**

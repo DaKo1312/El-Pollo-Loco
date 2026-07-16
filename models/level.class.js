@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Data container of a level.
  *
  * Holds every object a level consists of and the position of its right
@@ -14,28 +14,28 @@ export class Level {
     /**
      * All enemies of the level, including the endboss.
      *
-     * @type {Array<import('./enemy.class.js').Enemy|import('./endboss.class.js').Endboss>}
+     * @type {Array<Enemy|Endboss>}
      */
     enemies;
 
     /**
      * The decorative clouds of the level.
      *
-     * @type {import('./cloud.class.js').Cloud[]}
+     * @type {Cloud[]}
      */
     clouds;
 
     /**
      * The parallax background tiles, in drawing order (back to front).
      *
-     * @type {import('./background_object.class.js').BackgroundObject[]}
+     * @type {BackgroundObject[]}
      */
     backgroundObjects;
 
     /**
      * The collectable coins of the level.
      *
-     * @type {import('./coins.class.js').Coin[]}
+     * @type {Coin[]}
      */
     coins;
 
@@ -55,11 +55,11 @@ export class Level {
      * The arrays are stored by reference, not copied: the world mutates them
      * directly, e.g. when removing collected items.
      *
-     * @param {Array<import('./enemy.class.js').Enemy|import('./endboss.class.js').Endboss>} enemies - The enemies of the level.
-     * @param {import('./cloud.class.js').Cloud[]} clouds - The clouds of the level.
-     * @param {import('./background_object.class.js').BackgroundObject[]} backgroundObjects - The background tiles, in drawing order.
-     * @param {import('./coins.class.js').Coin[]} coins - The coins of the level.
-     * @param {import('./flask.class.js').Flask[]} flasks - The collectable bottles of the level.
+     * @param {Array<Enemy|Endboss>} enemies - The enemies of the level.
+     * @param {Cloud[]} clouds - The clouds of the level.
+     * @param {BackgroundObject[]} backgroundObjects - The background tiles, in drawing order.
+     * @param {Coin[]} coins - The coins of the level.
+     * @param {Flask[]} flasks - The collectable bottles of the level.
      */
     constructor(enemies, clouds, backgroundObjects, coins, flasks) {
         this.enemies = enemies;
@@ -69,7 +69,7 @@ export class Level {
         /**
          * The collectable bottles of the level.
          *
-         * @type {import('./flask.class.js').Flask[]}
+         * @type {Flask[]}
          */
         this.flasks = flasks;
     }

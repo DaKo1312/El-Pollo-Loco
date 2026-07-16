@@ -1,8 +1,8 @@
-/**
+﻿/**
  * Safe wrapper around the playback methods of the Audio API.
  *
  * `Audio.play()` returns a promise that browsers reject whenever playback is
- * blocked — most notably when autoplay is denied before the first user
+ * blocked â€” most notably when autoplay is denied before the first user
  * interaction, or when a sound is interrupted by a new `play()` call. An
  * unhandled rejection would show up as an error in the console without any
  * benefit for the player, so every playback of {@link SoundHub} is routed

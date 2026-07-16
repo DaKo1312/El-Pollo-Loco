@@ -1,4 +1,4 @@
-import { ImageHub } from "../helper/image_helper.class.js";
+﻿import { ImageHub } from "../helper/image_helper.class.js";
 import { IntervalHub } from "../helper/interval_helper.class.js";
 import { MovableObject } from "./movables_object.class.js";
 import { SoundHub } from '../helper/sound_helper.class.js';
@@ -8,8 +8,8 @@ import { SoundHub } from '../helper/sound_helper.class.js';
  *
  * Created the moment the player throws and removed from the world once its
  * splash animation has finished, so it is the only short lived object of the
- * game. It flies in an arc — a constant horizontal speed combined with the
- * gravity of {@link MovableObject} — rotates while flying and splashes on
+ * game. It flies in an arc â€” a constant horizontal speed combined with the
+ * gravity of {@link MovableObject} â€” rotates while flying and splashes on
  * impact. Bottles are the only way to damage the endboss.
  *
  * All loops are started right from the constructor and are driven by the
@@ -69,7 +69,7 @@ export class ThrowableObject extends MovableObject {
      *
      * @param {number} x - Horizontal start position, usually the character's.
      * @param {number} y - Vertical start position, usually the character's.
-     * @param {import('./world.class.js').World} world - The world, needed to remove the bottle after the splash.
+     * @param {World} world - The world, needed to remove the bottle after the splash.
      */
     constructor(x, y, world) {
         super();

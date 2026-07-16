@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Shared keyboard state of the game.
  *
  * Acts as the single interface between input and game logic: the keyboard and

@@ -1,127 +1,76 @@
-/**
- * @file Factory of level 1.
+﻿/**
+ * Data container of a level.
  *
- * Builds every object the level consists of — enemies, clouds, background
- * layers, coins and bottles — and assembles them into a {@link Level}
- * instance. The module is a pure factory: it is called once per game start,
- * so every restart works with a freshly created and randomised level.
+ * Holds every object a level consists of and the position of its right
+ * boundary. The class has no logic of its own: instances are assembled by the
+ * level factory and read by the world, which draws the objects and checks
+ * them for collisions.
+ *
+ * @class
+ *
+ * @see createLevel1
  */
+export class Level {
+    /**
+     * All enemies of the level, including the endboss.
+     *
+     * @type {Array<Enemy|Endboss>}
+     */
+    enemies;
 
-import { Chicken } from "../models/chicken.class.js";
-import { SmallChicken } from "../models/small_chicken.class.js";
-import { BackgroundObject } from "../models/background_object.class.js";
-import { ImageHub } from "../helper/image_helper.class.js";
-import { Level } from "../models/level.class.js";
-import { Cloud } from "../models/cloud.class.js";
-import { Endboss } from "../models/endboss.class.js";
-import { Coin } from "../models/coins.class.js";
-import { Flask } from "../models/flask.class.js";
+    /**
+     * The decorative clouds of the level.
+     *
+     * @type {Cloud[]}
+     */
+    clouds;
 
-/**
- * Creates a complete, ready to play level 1.
- *
- * Call this on every game start instead of reusing a level instance:
- * enemies and items place themselves randomly on construction, so a new call
- * also resets their positions and states.
- *
- * @returns {Level} The fully populated level.
- *
- * @example
- * this.level = createLevel1();
- */
-export function createLevel1() {
-    return new Level(
-        createEnemies(),
-        createClouds(),
-        createBackground(),
-        createCoins(),
-        createFlasks()
-    );
-}
+    /**
+     * The parallax background tiles, in drawing order (back to front).
+     *
+     * @type {BackgroundObject[]}
+     */
+    backgroundObjects;
 
-/**
- * Creates all enemies of the level.
- *
- * Ten normal chickens, ten small chickens and exactly one {@link Endboss},
- * which is pushed last and therefore drawn on top of the other enemies.
- *
- * @returns {Array<Chicken|SmallChicken|Endboss>} The enemies of the level.
- */
-function createEnemies() {
-    let enemies = [];
-    for (let i = 0; i < 10; i++) enemies.push(new Chicken());
-    for (let i = 0; i < 10; i++) enemies.push(new SmallChicken());
-    enemies.push(new Endboss());
-    return enemies;
-}
+    /**
+     * The collectable coins of the level.
+     *
+     * @type {Coin[]}
+     */
+    coins;
 
-/**
- * Creates the clouds of the level.
- *
- * The clouds are placed one after another along the x axis with a fixed gap
- * of 150 pixels, so they never overlap. Their y position is randomised
- * slightly to avoid a visible pattern.
- *
- * @returns {Cloud[]} The clouds of the level.
- */
-function createClouds() {
-    let clouds = [];
-    let currentX = 0;
-    for (let i = 0; i < 10; i++) {
-        let cloud = new Cloud();
-        cloud.x = currentX;
-        cloud.y = -35 + Math.random() * 20;
-        clouds.push(cloud);
-        currentX += cloud.width + 150;
+    /**
+     * Right boundary of the level in pixels.
+     *
+     * Equals nine background segments of 720 pixels each and limits how far
+     * the character may walk to the right.
+     *
+     * @type {number}
+     */
+    level_end_x = 720*9;
+
+    /**
+     * Creates a level from its objects.
+     *
+     * The arrays are stored by reference, not copied: the world mutates them
+     * directly, e.g. when removing collected items.
+     *
+     * @param {Array<Enemy|Endboss>} enemies - The enemies of the level.
+     * @param {Cloud[]} clouds - The clouds of the level.
+     * @param {BackgroundObject[]} backgroundObjects - The background tiles, in drawing order.
+     * @param {Coin[]} coins - The coins of the level.
+     * @param {Flask[]} flasks - The collectable bottles of the level.
+     */
+    constructor(enemies, clouds, backgroundObjects, coins, flasks) {
+        this.enemies = enemies;
+        this.clouds = clouds;
+        this.backgroundObjects = backgroundObjects;
+        this.coins = coins;
+        /**
+         * The collectable bottles of the level.
+         *
+         * @type {Flask[]}
+         */
+        this.flasks = flasks;
     }
-    return clouds;
-}
-
-/**
- * Creates the collectable coins of the level.
- *
- * @returns {Coin[]} The coins of the level.
- */
-function createCoins() {
-    let coins = [];
-    for (let i = 0; i < 12; i++) coins.push(new Coin());
-    return coins;
-}
-
-/**
- * Creates the collectable salsa bottles of the level.
- *
- * @returns {Flask[]} The bottles of the level.
- */
-function createFlasks() {
-    let flasks = [];
-    for (let i = 0; i < 15; i++) flasks.push(new Flask());
-    return flasks;
-}
-
-/**
- * Creates the parallax background of the level.
- *
- * Builds eleven segments of 720 pixels each, starting at `-720` so the area
- * left of the start position is covered as well. Within each segment the
- * layers are pushed from back to front (air, third, second, first layer),
- * which is the order they are drawn in. The alternating `imageIndex` swaps
- * the two tile variants of each layer, so neighbouring segments connect
- * seamlessly.
- *
- * @returns {BackgroundObject[]} The background objects of the level.
- */
-function createBackground() {
-    let background = [];
-    for (let i = -1; i < 10; i++) {
-        let x = i * 720;
-        let imageIndex = Math.abs(i) % 2;
-        background.push(
-            new BackgroundObject(ImageHub.BACKGROUND.air, x),
-            new BackgroundObject(ImageHub.BACKGROUND.thirdLayer[imageIndex], x),
-            new BackgroundObject(ImageHub.BACKGROUND.secondLayer[imageIndex], x),
-            new BackgroundObject(ImageHub.BACKGROUND.firstLayer[imageIndex], x)
-        );
-    }
-    return background;
 }

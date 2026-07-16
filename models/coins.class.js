@@ -1,4 +1,4 @@
-import { MovableObject } from "./movables_object.class.js";
+﻿import { MovableObject } from "./movables_object.class.js";
 import { ImageHub } from "../helper/image_helper.class.js";
 
 /**
@@ -60,7 +60,7 @@ export class Coin extends MovableObject {
     /**
      * Insets of the collision box relative to the image bounds.
      *
-     * The generous insets shrink the 120×120 image down to the visible coin,
+     * The generous insets shrink the 120Ã—120 image down to the visible coin,
      * so the player has to touch the coin itself and not its transparent
      * padding.
      *

@@ -1,4 +1,4 @@
-import {MovableObject} from './movables_object.class.js';
+﻿import {MovableObject} from './movables_object.class.js';
 
 /**
  * A single background tile of the parallax background.
