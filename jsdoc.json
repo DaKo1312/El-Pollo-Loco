@@ -1,0 +1,12 @@
+{
+    "source": {
+    "include": ["./helper/image_helper.class.js", "./helper/interval_helper.class.js", "./helper/sound_helper.class.js", "./js/game.js", "./js/template.js", 
+                "./levels/level1.js", "./models/background_object.class.js", "./models/character.class.js", "./models/chicken.class.js", "./models/cloud.class.js", 
+                "./models/coins.class.js", "./models/drawable_object.class.js", "./models/endboss.class.js", "./models/enemy.class.js", "./models/flask.class.js", 
+                "./models/keyboard.class.js", "./models/level.class.js", "./models/movables_object.class.js", "./models/small_chicken.class.js", "./models/soundError.class.js", 
+                "./models/status_bar.class.js", "./models/throwable_object.class.js", "./models/world.class.js"]
+    },
+    "opts": {
+    "destination": "./out"
+    }
+}

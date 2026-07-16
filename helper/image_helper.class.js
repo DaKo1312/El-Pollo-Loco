@@ -225,7 +225,7 @@ export class ImageHub {
         ]
     }
     // #endregion
-    
+
     // #region startscreen
     static START = {
         start: [
@@ -233,7 +233,7 @@ export class ImageHub {
         ]
     }
     // #endregion
-    
+
     // #region flask rotation
     static ROTATE = {
         flask: [
@@ -244,7 +244,7 @@ export class ImageHub {
         ]
     }
     // #endregion
-    
+
     // #region flask splash
     static SPLASH = {
         flask: [
@@ -265,7 +265,7 @@ export class ImageHub {
         ]
     }
     // #endregion
-    
+
     // #region endscreen
     static END = {
         end: [
