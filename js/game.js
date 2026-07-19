@@ -12,7 +12,7 @@
 import { World } from '../models/world.class.js';
 import { GameKeyboard } from '../models/keyboard.class.js';
 import { IntervalHub } from "../helper/interval_helper.class.js";
-import { welcomeSoundTemplate, startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate } from './template.js';
+import { welcomeSoundTemplate, startScreenTemplate, howToPlayTemplate, gameOverTemplate, winScreenTemplate, impressumTemplate } from './template.js';
 import { SoundHub } from '../helper/sound_helper.class.js';
 
 /**
@@ -56,6 +56,7 @@ let keyboard = new GameKeyboard();
  */
 function init() {
     document.getElementById("start_screen").classList.add("hidden");
+    document.getElementById("impressum_button").classList.add("hidden");
     canvas = document.getElementById("canvas");
     document.getElementById("game_sound_container").classList.remove("hidden");
     if (window.matchMedia("(pointer: coarse) and (orientation: landscape)").matches) {
@@ -102,7 +103,9 @@ function goHome() {
     document.getElementById("game_over_screen").classList.add("hidden");
     document.getElementById("win_screen").classList.add("hidden");
     document.getElementById("how_to_play_screen").classList.add("hidden");
+    document.getElementById("impressum_screen").classList.add("hidden");
     document.getElementById("start_screen").classList.remove("hidden");
+    document.getElementById("impressum_button").classList.remove("hidden");
     document.getElementById("game_sound_container").classList.add("hidden");
     document.getElementById("mobile_controls").classList.add("hidden");
     world = null;
@@ -123,11 +126,13 @@ function renderTemplates() {
     document.getElementById("how_to_play_screen").innerHTML = howToPlayTemplate();
     document.getElementById("game_over_screen").innerHTML = gameOverTemplate();
     document.getElementById("win_screen").innerHTML = winScreenTemplate();
+    document.getElementById("impressum_screen").innerHTML = impressumTemplate();
     document.getElementById("welcome_sound_screen").className = "overlay";
     document.getElementById("start_screen").className = "overlay hidden";
     document.getElementById("how_to_play_screen").className = "overlay hidden";
     document.getElementById("game_over_screen").className = "overlay hidden";
     document.getElementById("win_screen").className = "overlay hidden";
+    document.getElementById("impressum_screen").className = "overlay hidden";
 }
 
 /**
@@ -188,6 +193,24 @@ function closeHowToPlay() {
 }
 
 /**
+ * Shows the Impressum overlay.
+ *
+ * @returns {void}
+ */
+function openImpressum() {
+    document.getElementById("impressum_screen").classList.remove("hidden");
+}
+
+/**
+ * Hides the Impressum overlay.
+ *
+ * @returns {void}
+ */
+function closeImpressum() {
+    document.getElementById("impressum_screen").classList.add("hidden");
+}
+
+/**
  * Toggles the global mute state and syncs it with the UI and storage.
  *
  * Updates both sound buttons (start screen and in-game), flips the state in
@@ -215,6 +238,8 @@ function registerButtons() {
     document.getElementById("start_button").addEventListener("click", init);
     document.getElementById("how_to_play_button").addEventListener("click", openHowToPlay);
     document.getElementById("close_how_to_play_button").addEventListener("click", closeHowToPlay);
+    document.getElementById("impressum_button").addEventListener("click", openImpressum);
+    document.getElementById("close_impressum_button").addEventListener("click", closeImpressum);
     document.getElementById("sound_button").addEventListener("click", toggleSound);
     document.querySelectorAll(".home_button").forEach(button => button.addEventListener("click", goHome));
     document.querySelectorAll(".restart_button").forEach(button => button.addEventListener("click", restartGame));

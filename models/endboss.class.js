@@ -151,7 +151,7 @@ export class Endboss extends MovableObject {
      *
      * @type {number}
      */
-    damage = 20;
+    damage = 50;
 
     /**
      * Remaining health, from `100` down to `0`.

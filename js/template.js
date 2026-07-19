@@ -57,11 +57,11 @@ export function howToPlayTemplate() {
             </p>
             <div class="controls">
                 <div class="control_row">
-                    <span class="key">â†</span>
+                    <span class="key">&larr;</span>
                     <span>Move Left</span>
                 </div>
                 <div class="control_row">
-                    <span class="key">â†’</span>
+                    <span class="key">&rarr;</span>
                     <span>Move Right</span>
                 </div>
                 <div class="control_row">
@@ -150,6 +150,34 @@ export function welcomeSoundTemplate() {
             </p>
             <button id="welcome_sound_button" class="menu_button">
                 VAMOS!
+            </button>
+        </div>
+    `;
+}
+
+/**
+ * Markup of the "Impressum" (legal notice) overlay.
+ *
+ * Reuses the how-to-play content box for a consistent look.
+ *
+ * Provided id: `close_impressum_button`.
+ *
+ * @returns {string} HTML markup of the Impressum overlay.
+ */
+export function impressumTemplate() {
+    return `
+        <div class="how_to_play_content">
+            <h2>Impressum</h2>
+            <p class="impressum_text">
+                <strong>Angaben gem&auml;&szlig; &sect; 5 TMG</strong><br><br>
+                Daniel Korbmacher<br>
+                Fantasiestrasse 123<br>
+                45678 Fantahausen<br><br>
+                <strong>Kontakt</strong><br>
+                E-Mail: kontakt@el-pollo-loco.de
+            </p>
+            <button id="close_impressum_button">
+                CLOSE
             </button>
         </div>
     `;

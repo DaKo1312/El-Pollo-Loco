@@ -10,158 +10,64 @@ import { SoundHub } from '../helper/sound_helper.class.js';
 /**
  * The game world: renderer, collision system and game state in one.
  *
- * Owns the character, the level, the status bars and the thrown bottles,
- * connects them to each other and runs the two loops the game is built on:
- * the render loop, driven by `requestAnimationFrame` in {@link World#draw},
- * and a set of collision intervals registered with {@link IntervalHub}. It is
- * also the only game object that touches the DOM, namely to show the win and
- * the game over overlay.
- *
- * A world is created per run and discarded on restart, so its state
- * (`gameEnded`, `hasWon`, collected items) never has to be reset.
+ * Owns the character, level, status bars and thrown bottles, runs the render
+ * loop and the collision intervals, and shows the win/game over overlays.
  *
  * @class
  */
 export class World {
     // #region world properties
-    /**
-     * The playable character.
-     *
-     * @type {Character}
-     */
+    /** The playable character. @type {Character} */
     character = new Character();
 
-    /**
-     * The canvas the game is drawn on.
-     *
-     * @type {HTMLCanvasElement}
-     */
+    /** The canvas the game is drawn on. @type {HTMLCanvasElement} */
     canvas;
 
-    /**
-     * Rendering context of the canvas.
-     *
-     * @type {CanvasRenderingContext2D}
-     */
+    /** Rendering context of the canvas. @type {CanvasRenderingContext2D} */
     ctx;
 
-    /**
-     * Shared keyboard state, read for the throw input.
-     *
-     * @type {GameKeyboard}
-     */
+    /** Shared keyboard state, read for the throw input. @type {GameKeyboard} */
     keyboard;
 
-    /**
-     * The level with all of its objects.
-     *
-     * Created fresh per world, so enemies and items are randomised again on
-     * every restart.
-     *
-     * @type {Level}
-     */
+    /** The level with all of its objects (recreated per world). @type {Level} */
     level = new createLevel1();
 
-    /**
-     * Horizontal camera offset.
-     *
-     * Updated by the character and applied as a canvas translation, which
-     * separates world space from screen space during drawing.
-     *
-     * @type {number}
-     */
+    /** Horizontal camera offset, applied as a canvas translation. @type {number} */
     camera_x = 0;
 
-    /**
-     * Health bar of the character.
-     *
-     * @type {StatusBar}
-     */
+    /** Health bar of the character. @type {StatusBar} */
     statusBar = new StatusBar(ImageHub.STATUSBAR.health, 20, 5);
 
-    /**
-     * Coin bar of the character.
-     *
-     * @type {StatusBar}
-     */
+    /** Coin bar of the character. @type {StatusBar} */
     coinStatusBar = new StatusBar(ImageHub.STATUSBAR.coin, 20, 55);
 
-    /**
-     * Bottle bar of the character.
-     *
-     * @type {StatusBar}
-     */
+    /** Bottle bar of the character. @type {StatusBar} */
     flaskStatusBar = new StatusBar(ImageHub.STATUSBAR.flask, 20, 105);
 
-    /**
-     * Health bar of the endboss.
-     *
-     * Only drawn once the boss has been activated.
-     *
-     * @type {StatusBar}
-     */
+    /** Health bar of the endboss (drawn once the boss is activated). @type {StatusBar} */
     endbossStatusBar = new StatusBar(ImageHub.BOSSBAR.health, 500, 15, 100);
 
-    /**
-     * The bottles currently in flight or splashing.
-     *
-     * Bottles add themselves on throw and remove themselves once their splash
-     * animation has finished.
-     *
-     * @type {ThrowableObject[]}
-     */
+    /** Bottles currently in flight or splashing. @type {ThrowableObject[]} */
     throwableObjects = [];
 
-    /**
-     * The endboss of the level.
-     *
-     * Looked up from the enemy list in the constructor and kept as a
-     * shortcut, since it is needed for activation, the win check and its
-     * status bar.
-     *
-     * @type {Endboss|null}
-     */
+    /** The endboss of the level, cached from the enemy list. @type {Endboss|null} */
     endboss = null;
 
-    /**
-     * Whether the game has ended in a loss.
-     *
-     * Guards {@link World#gameOver} against running more than once.
-     *
-     * @type {boolean}
-     */
+    /** Whether the game has ended in a loss (guards gameOver). @type {boolean} */
     gameEnded = false;
 
-    /**
-     * Whether the game has been won.
-     *
-     * Guards the win handling against running more than once.
-     *
-     * @type {boolean}
-     */
+    /** Whether the game has been won (guards the win handling). @type {boolean} */
     hasWon = false;
 
-    /**
-     * Timestamp until which the "FULL HEALTH" text is shown.
-     *
-     * @type {number}
-     */
+    /** Timestamp until which the "FULL HEALTH" text is shown. @type {number} */
     healthFullUntil = 0;
 
-    /**
-     * Timestamp at which the "FULL HEALTH" text appeared.
-     *
-     * @type {number}
-     */
+    /** Timestamp at which the "FULL HEALTH" text appeared. @type {number} */
     healthFullStart = 0;
     // #endregion
 
     /**
-     * Creates the world and starts rendering.
-     *
-     * Wires the objects together, caches the endboss, registers the collision
-     * intervals and starts the render loop. The objects themselves are not
-     * animated yet; that happens in {@link World#startGame}.
+     * Creates the world, wires objects together and starts rendering.
      *
      * @param {HTMLCanvasElement} canvas - The game canvas.
      * @param {GameKeyboard} keyboard - The shared keyboard state.
@@ -170,14 +76,7 @@ export class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
-        /**
-         * Whether the render loop is running.
-         *
-         * Set to `false` from the outside to tear the world down: the next
-         * frame then returns early instead of scheduling another one.
-         *
-         * @type {boolean}
-         */
+        /** @type {boolean} Whether the render loop is running. */
         this.isRunning = true;
         this.setWorld();
         this.endboss = this.level.enemies.find(enemy => enemy instanceof Endboss);
@@ -187,9 +86,6 @@ export class World {
 
     /**
      * Gives the character and every enemy a back reference to this world.
-     *
-     * They need it to read the keyboard, move the camera and update the
-     * status bars.
      *
      * @returns {void}
      */
@@ -203,9 +99,8 @@ export class World {
     /**
      * Registers every collision and game state interval.
      *
-     * Note that this is called both from the constructor and from
-     * {@link World#startGame}, so each of these intervals ends up running
-     * twice per game.
+     * Called from the constructor and from startGame, so each interval ends
+     * up running twice per game.
      *
      * @returns {void}
      */
@@ -221,10 +116,8 @@ export class World {
     }
 
     /**
-     * Watches for contact between the character and the enemies (every 100 ms).
-     *
-     * Also runs the game over check, so a lethal hit is picked up in the same
-     * tick.
+     * Watches for contact between the character and the enemies, and runs the
+     * game over check in the same tick.
      *
      * @returns {void}
      */
@@ -234,14 +127,11 @@ export class World {
                 this.handleEnemyCollision(enemy);
             });
             this.checkGameOver();
-        }, 100);
+        }, 1000/60);
     }
 
     /**
-     * Watches for collected coins (every 100 ms).
-     *
-     * Collected coins are filtered out of the level, which removes them from
-     * both the drawing and the collision checks.
+     * Watches for collected coins and filters them out of the level.
      *
      * @returns {void}
      */
@@ -260,10 +150,7 @@ export class World {
     }
 
     /**
-     * Watches for collected bottles (every 100 ms).
-     *
-     * The inventory is capped at five bottles: once full, bottles stay in the
-     * level and can be picked up later.
+     * Watches for collected bottles; the inventory is capped at five.
      *
      * @returns {void}
      */
@@ -282,14 +169,8 @@ export class World {
     }
 
     /**
-     * Watches for the throw input (every 100 ms).
-     *
-     * Spawns a bottle slightly in front of the character, decreases the
-     * inventory and clears the D flag, which forces the player to press the
-     * key again for each throw.
-     *
-     * The bar is updated with a factor of 10 here, while
-     * {@link Character#collectFlask} uses 20.
+     * Watches for the throw input, spawns a bottle and clears the D flag so
+     * the key must be pressed again for each throw.
      *
      * @returns {void}
      */
@@ -311,10 +192,8 @@ export class World {
     }
 
     /**
-     * Watches for bottle hits on enemies (60 FPS).
-     *
-     * Runs at frame rate rather than every 100 ms, because a flying bottle
-     * would otherwise pass through an enemy between two checks.
+     * Watches for bottle hits on enemies at frame rate, so a fast bottle
+     * cannot pass through an enemy between two checks.
      *
      * @returns {void}
      */
@@ -327,9 +206,8 @@ export class World {
     }
 
     /**
-     * Checks a single bottle against every enemy.
-     *
-     * Splashing bottles are skipped, so one bottle can only ever hit once.
+     * Checks a single bottle against every enemy; splashing bottles are
+     * skipped so one bottle only hits once.
      *
      * @param {ThrowableObject} flask - The bottle to check.
      * @returns {void}
@@ -344,10 +222,7 @@ export class World {
     }
 
     /**
-     * Handles a bottle hitting one specific enemy.
-     *
-     * Dead enemies and misses are ignored. On a hit the bottle switches to
-     * its splash state, the breaking sound plays and the damage is applied.
+     * Handles a bottle hitting one enemy: splash, breaking sound and damage.
      *
      * @param {ThrowableObject} flask - The bottle.
      * @param {Enemy|Endboss} enemy - The enemy that was hit.
@@ -363,10 +238,8 @@ export class World {
     }
 
     /**
-     * Applies bottle damage to an enemy.
-     *
-     * The endboss takes 20 damage per bottle and updates its status bar;
-     * chickens die from a single hit.
+     * Applies bottle damage: the endboss takes 20 per bottle, chickens die
+     * from a single hit.
      *
      * @param {Enemy|Endboss} enemy - The enemy to damage.
      * @returns {void}
@@ -384,11 +257,8 @@ export class World {
     }
 
     /**
-     * Watches for the boss trigger zone (every 100 ms).
-     *
-     * Once the character passes x = 6450, the boss is activated and its
-     * approach sound is played. The activation itself is guarded inside the
-     * boss, so it can only happen once.
+     * Watches for the boss trigger zone; activates the boss once the
+     * character passes x = 6450.
      *
      * @returns {void}
      */
@@ -404,11 +274,8 @@ export class World {
     }
 
     /**
-     * Watches for the win condition (every 100 ms).
-     *
-     * The game is won once the boss is dead. Stops the music, plays the win
-     * sound and shows the win overlay. The intervals are stopped two seconds
-     * later, which lets the boss finish its death animation.
+     * Watches for the win condition (boss dead): stops music, plays the win
+     * sound, shows the overlay and stops the intervals two seconds later.
      *
      * @returns {void}
      */
@@ -430,20 +297,16 @@ export class World {
     /**
      * Renders one frame and schedules the next one.
      *
-     * Draws in two passes: everything between the two camera translations
-     * lives in world space and scrolls with the character, everything after
-     * them is screen space and stays fixed, which is what the status bars
-     * need. Within the world pass the order defines the depth, from the
-     * background up to the thrown bottles.
-     *
-     * The loop ends as soon as {@link World#isRunning} is `false`.
+     * Draws in two passes: world space (scrolls with the character) between
+     * the camera translations, then screen space (fixed) for the status bars.
+     * The loop ends as soon as isRunning is false.
      *
      * @returns {void}
      */
     draw() {
         if (!this.isRunning) return;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(Math.round(this.camera_x), 0);
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.coins);
@@ -452,7 +315,7 @@ export class World {
         this.addToMap(this.character);
         this.drawHealthFull();
         this.addObjectToMap(this.throwableObjects);
-        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(-Math.round(this.camera_x), 0);
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.flaskStatusBar);
@@ -473,12 +336,8 @@ export class World {
     }
 
     /**
-     * Draws a single object, mirroring it if it faces left.
-     *
-     * Mirroring flips the canvas horizontally, which requires inverting the
-     * object's x position as well. Both the flip and the position are undone
-     * afterwards, so the object keeps its real coordinates for the collision
-     * checks.
+     * Draws a single object, mirroring it (and its x) if it faces left, then
+     * undoing the flip so collisions keep the real coordinates.
      *
      * @param {DrawableObject} mo - The object to draw.
      * @returns {void}
@@ -499,10 +358,8 @@ export class World {
     }
 
     /**
-     * Starts the game.
-     *
-     * Animates the character, the walking enemies and the clouds. The endboss
-     * is skipped on purpose: it starts itself once it is activated.
+     * Starts the game: animates the character, the walking enemies and the
+     * clouds. The endboss starts itself once activated.
      *
      * @returns {void}
      */
@@ -532,11 +389,8 @@ export class World {
     }
 
     /**
-     * Ends the game with a loss.
-     *
-     * Stops the music, plays the game over sound and shows the overlay two
-     * seconds later, which leaves room for the death animation before the
-     * intervals are stopped.
+     * Ends the game with a loss: stops music, plays the game over sound and
+     * shows the overlay two seconds later.
      *
      * @returns {void}
      */
@@ -552,11 +406,8 @@ export class World {
     }
 
     /**
-     * Handles the contact between the character and one enemy.
-     *
-     * The endboss always damages the character; chickens die when stomped
-     * from above and damage the character otherwise. Dead enemies are
-     * harmless.
+     * Handles the contact between the character and one enemy: the endboss
+     * always damages, chickens die when stomped and damage otherwise.
      *
      * @param {Enemy|Endboss} enemy - The enemy in contact.
      * @returns {void}
@@ -583,10 +434,7 @@ export class World {
     /**
      * Checks a single bottle against every enemy.
      *
-     * Not called anywhere; superseded by
-     * {@link World#checkThrowableObjectCollision}.
-     *
-     * @deprecated Unused duplicate. Kept for reference.
+     * @deprecated Unused duplicate of checkThrowableObjectCollision.
      * @param {ThrowableObject} flask - The bottle to check.
      * @returns {void}
      */
@@ -602,11 +450,7 @@ export class World {
     /**
      * Handles a bottle hitting one enemy.
      *
-     * Not called anywhere; superseded by
-     * {@link World#handleThrowableObjectHit}, which additionally plays the
-     * breaking sound.
-     *
-     * @deprecated Unused duplicate. Kept for reference.
+     * @deprecated Unused duplicate of handleThrowableObjectHit.
      * @param {ThrowableObject} flask - The bottle.
      * @param {Enemy|Endboss} enemy - The enemy that was hit.
      * @returns {void}
@@ -622,9 +466,7 @@ export class World {
     /**
      * Damages the endboss and updates its status bar.
      *
-     * Not called anywhere; {@link World#damageEnemy} covers this case.
-     *
-     * @deprecated Unused duplicate. Kept for reference.
+     * @deprecated Unused duplicate; damageEnemy covers this case.
      * @param {Endboss} enemy - The endboss.
      * @returns {void}
      */
@@ -636,8 +478,6 @@ export class World {
     /**
      * Triggers the "FULL HEALTH" feedback above the character.
      *
-     * Called by the character once five coins have restored its health.
-     *
      * @returns {void}
      */
     showHealthFull() {
@@ -646,14 +486,8 @@ export class World {
     }
 
     /**
-     * Draws the "FULL HEALTH" text above the character.
-     *
-     * The text floats upwards while fading out and is drawn in world space,
-     * so it follows the character. Rendering is skipped once the display
-     * window has passed.
-     *
-     * Note that the progress is divided by 2000 while the window lasts
-     * 1000 ms, so the text disappears at about half its opacity.
+     * Draws the "FULL HEALTH" text above the character while it floats up and
+     * fades out. Skipped once the display window has passed.
      *
      * @returns {void}
      */

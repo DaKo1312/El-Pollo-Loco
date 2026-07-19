@@ -108,11 +108,9 @@ function createFlasks() {
  */
 function createBackground() {
     let background = [];
-
     for (let i = -1; i < 10; i++) {
         let x = i * 720;
         let imageIndex = Math.abs(i) % 2;
-
         background.push(
             new BackgroundObject(ImageHub.BACKGROUND.air, x),
             new BackgroundObject(ImageHub.BACKGROUND.thirdLayer[imageIndex], x),
@@ -120,6 +118,5 @@ function createBackground() {
             new BackgroundObject(ImageHub.BACKGROUND.firstLayer[imageIndex], x)
         );
     }
-
     return background;
 }

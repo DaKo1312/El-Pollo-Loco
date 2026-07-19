@@ -234,49 +234,114 @@ export class Character extends MovableObject {
      *
      * @returns {void}
      */
+    
+    /**
+     * Starts the animation and sound loop (every 150 ms).
+     * @returns {void}
+     */
     animateImages() {
-        IntervalHub.startInterval(() => {
-            let idleTime = Date.now() - this.lastAction;
-            const isWalking = (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround();
-            if (!isWalking && this.runSoundPlaying) {
-                SoundHub.pause(SoundHub.characterRun);
-                this.runSoundPlaying = false;
-            }
-            if (this.isDead()) {
-                if (!this.deathSoundPlayed) {
-                    SoundHub.play(SoundHub.characterDead);
-                    this.deathSoundPlayed = true;
-                }
-                SoundHub.pause(SoundHub.characterSnoring);
-                this.snoringPlayed = false;
-                this.playAnimation(this.imagesDead);
-            } else if (this.isHurt()) {
-                SoundHub.pause(SoundHub.characterSnoring);
-                this.snoringPlayed = false;
-                this.playAnimation(this.imagesHurt);
-            } else if (this.isAboveGround()) {
-                SoundHub.pause(SoundHub.characterSnoring);
-                this.snoringPlayed = false;
-                this.playAnimation(this.imagesJump);
-            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                if (!this.runSoundPlaying) {
-                    SoundHub.play(SoundHub.characterRun);
-                    this.runSoundPlaying = true;
-                } 
-                this.playAnimation(this.imagesWalk);
-            } else if (idleTime >= 8000) {
-                if (!this.snoringPlayed) {
-                    SoundHub.characterSnoring.loop = true;
-                    SoundHub.play(SoundHub.characterSnoring);
-                    this.snoringPlayed = true;
-                }
-                this.playAnimation(this.imagesIdleLong);
-            } else if (idleTime >= 3000) {
-                SoundHub.pause(SoundHub.characterSnoring);
-                this.snoringPlayed = false;
-                this.playAnimation(this.imagesIdle);
-            }
-        }, 150);
+        IntervalHub.startInterval(() => this.updateAnimationState(), 150);
+    }
+
+    /**
+     * Picks animation and sound for the current state (priority order).
+     * @returns {void}
+     */
+    updateAnimationState() {
+        const idleTime = Date.now() - this.lastAction;
+        this.updateRunSound();
+        if (this.isDead()) return this.animateDead();
+        if (this.isHurt()) return this.animateHurt();
+        if (this.isAboveGround()) return this.animateJump();
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) return this.animateWalk();
+        if (idleTime >= 8000) return this.animateLongIdle();
+        this.animateIdle();
+    }
+
+    /**
+     * Stops the run sound when no longer walking on the ground.
+     * @returns {void}
+     */
+    updateRunSound() {
+        const isWalking = (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isAboveGround();
+        if (!isWalking && this.runSoundPlaying) {
+            SoundHub.pause(SoundHub.characterRun);
+            this.runSoundPlaying = false;
+        }
+    }
+
+    /**
+     * Stops the snoring sound (shared by several states).
+     * @returns {void}
+     */
+    stopSnoring() {
+        SoundHub.pause(SoundHub.characterSnoring);
+        this.snoringPlayed = false;
+    }
+
+    /**
+     * Plays the death animation and the death sound once.
+     * @returns {void}
+     */
+    animateDead() {
+        if (!this.deathSoundPlayed) {
+            SoundHub.play(SoundHub.characterDead);
+            this.deathSoundPlayed = true;
+        }
+        this.stopSnoring();
+        this.playAnimation(this.imagesDead);
+    }
+
+    /**
+     * Plays the hurt animation.
+     * @returns {void}
+     */
+    animateHurt() {
+        this.stopSnoring();
+        this.playAnimation(this.imagesHurt);
+    }
+
+    /**
+     * Plays the jump animation once while airborne.
+     * @returns {void}
+     */
+    animateJump() {
+        this.stopSnoring();
+        this.playAnimationOnce(this.imagesJump);
+    }
+
+    /**
+     * Plays the walk animation and starts the run sound loop.
+     * @returns {void}
+     */
+    animateWalk() {
+        if (!this.runSoundPlaying) {
+            SoundHub.play(SoundHub.characterRun);
+            this.runSoundPlaying = true;
+        }
+        this.playAnimation(this.imagesWalk);
+    }
+
+    /**
+     * Plays the long idle animation and loops the snoring sound.
+     * @returns {void}
+     */
+    animateLongIdle() {
+        if (!this.snoringPlayed) {
+            SoundHub.characterSnoring.loop = true;
+            SoundHub.play(SoundHub.characterSnoring);
+            this.snoringPlayed = true;
+        }
+        this.playAnimation(this.imagesIdleLong);
+    }
+
+    /**
+     * Plays the short idle animation.
+     * @returns {void}
+     */
+    animateIdle() {
+        this.stopSnoring();
+        this.playAnimation(this.imagesIdle);
     }
 
     /**
@@ -289,6 +354,7 @@ export class Character extends MovableObject {
      */
     jump() {
         this.speedY = 25;
+        this.currentImage = 0;
         SoundHub.play(SoundHub.characterJump);
     }
 
