@@ -64,6 +64,16 @@ export class World {
 
     /** Timestamp at which the "FULL HEALTH" text appeared. @type {number} */
     healthFullStart = 0;
+
+    /**
+     * Character position that triggers the boss fight and its health bar.
+     *
+     * Chosen so the boss is just entering the right edge of the canvas when it
+     * wakes up, which leaves the player the full alert animation to react.
+     *
+     * @type {number}
+     */
+    bossTriggerX = 6200;
     // #endregion
 
     /**
@@ -267,14 +277,14 @@ export class World {
 
     /**
      * Watches for the boss trigger zone; activates the boss once the
-     * character passes x = 6450.
+     * character passes {@link World#bossTriggerX}.
      *
      * @returns {void}
      */
     checkBossActivation() {
         IntervalHub.startInterval(() => {
             if (!this.endboss) return;
-            if (!this.endboss.isActivated && this.character.x >= 6450) {
+            if (!this.endboss.isActivated && this.character.x >= this.bossTriggerX) {
                 this.endboss.activate();
                 SoundHub.play(SoundHub.bossApproach);
                 this.showBossStatusBar = true;
