@@ -58,6 +58,13 @@ export class ThrowableObject extends MovableObject {
      * @type {{top: number, right: number, bottom: number, left: number}}
      */
     offset = {top: 50, right: 20, bottom: 50, left: 25};
+
+    /**
+     * Horizontal flight speed in pixels per tick.
+     *
+     * @type {number}
+     */
+    speedX = 8;
     // #endregion
 
     /**
@@ -70,10 +77,12 @@ export class ThrowableObject extends MovableObject {
      * @param {number} x - Horizontal start position, usually the character's.
      * @param {number} y - Vertical start position, usually the character's.
      * @param {World} world - The world, needed to remove the bottle after the splash.
+     * @param {boolean} [otherDirection=false] - `true` throws the bottle to the left.
      */
-    constructor(x, y, world) {
+    constructor(x, y, world, otherDirection = false) {
         super();
         this.world = world;
+        this.otherDirection = otherDirection;
         this.loadImage(this.imagesRotate[0]);
         this.loadImages(this.imagesRotate);
         this.loadImages(this.imagesSplash);
@@ -94,8 +103,8 @@ export class ThrowableObject extends MovableObject {
      * produce the throwing arc. The horizontal movement runs at 60 FPS, the
      * rotation at 10 FPS. Both stop once the bottle splashes.
      *
-     * The bottle always flies to the right; the facing direction of the
-     * character is not taken into account.
+     * The bottle flies in the direction the character is facing, taken from
+     * `otherDirection`, which also mirrors the sprite while it is drawn.
      *
      * @returns {void}
      */
@@ -104,7 +113,7 @@ export class ThrowableObject extends MovableObject {
         this.applyGravity();
         IntervalHub.startInterval(() => {
             if (!this.isSplashing) {
-                this.x += 8;
+                this.x += this.otherDirection ? -this.speedX : this.speedX;
             }
         }, 1000 / 60);
         IntervalHub.startInterval(() => {

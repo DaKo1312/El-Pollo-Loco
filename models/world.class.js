@@ -177,18 +177,27 @@ export class World {
     checkThrowableObjects() {
         IntervalHub.startInterval(() => {
             if (this.keyboard.D && this.character.flasks > 0) {
-                this.throwableObjects.push(
-                    new ThrowableObject(
-                        this.character.x + 50,
-                        this.character.y + 100,
-                        this
-                    )
-                );
+                this.throwableObjects.push(this.createThrowableObject());
                 this.character.flasks--;
                 this.flaskStatusBar.setPercentage(this.character.flasks * 10);
                 this.keyboard.D = false;
             }
         }, 100);
+    }
+
+    /**
+     * Creates a bottle in front of the character, on the side it faces.
+     *
+     * The spawn position is mirrored around the character's center, so a
+     * bottle thrown to the left starts at the same distance from the character
+     * as one thrown to the right.
+     *
+     * @returns {ThrowableObject} The bottle to add to the world.
+     */
+    createThrowableObject() {
+        const throwLeft = this.character.otherDirection;
+        const x = throwLeft ? this.character.x - 10 : this.character.x + 50;
+        return new ThrowableObject(x, this.character.y + 100, this, throwLeft);
     }
 
     /**
