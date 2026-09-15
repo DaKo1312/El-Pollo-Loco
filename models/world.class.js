@@ -64,16 +64,6 @@ export class World {
 
     /** Timestamp at which the "FULL HEALTH" text appeared. @type {number} */
     healthFullStart = 0;
-
-    /**
-     * Character position that triggers the boss fight and its health bar.
-     *
-     * Chosen so the boss is just entering the right edge of the canvas when it
-     * wakes up, which leaves the player the full alert animation to react.
-     *
-     * @type {number}
-     */
-    bossTriggerX = 6200;
     // #endregion
 
     /**
@@ -276,20 +266,32 @@ export class World {
     }
 
     /**
-     * Watches for the boss trigger zone; activates the boss once the
-     * character passes {@link World#bossTriggerX}.
+     * Watches for the boss trigger; activates the boss the moment it scrolls
+     * into the canvas.
      *
      * @returns {void}
      */
     checkBossActivation() {
         IntervalHub.startInterval(() => {
             if (!this.endboss) return;
-            if (!this.endboss.isActivated && this.character.x >= this.bossTriggerX) {
+            if (!this.endboss.isActivated && this.isBossOnScreen()) {
                 this.endboss.activate();
                 SoundHub.play(SoundHub.bossApproach);
                 this.showBossStatusBar = true;
             }
         }, 100);
+    }
+
+    /**
+     * Checks whether the endboss has entered the visible part of the canvas.
+     *
+     * Uses the camera offset instead of a fixed character position, so the
+     * trigger keeps working if the boss or the level length is ever moved.
+     *
+     * @returns {boolean} `true` once the boss reaches the right canvas edge.
+     */
+    isBossOnScreen() {
+        return this.endboss.x + this.camera_x < this.canvas.width;
     }
 
     /**
